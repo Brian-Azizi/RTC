@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 
 
@@ -46,3 +47,7 @@ def Point(x: float, y: float, z: float):
 
 def Vector(x: float, y: float, z: float):
     return Tuple(x, y, z, 0.0)
+
+
+def magnitude(p: Tuple):
+    return math.sqrt(p.x * p.x + p.y * p.y + p.z * p.z)

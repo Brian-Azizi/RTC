@@ -1,5 +1,6 @@
+import math
 from behave import given, then
-from src.tuple import Tuple, Point, Vector
+from src.tuple import Tuple, Point, Vector, magnitude
 
 
 def is_number(s):
@@ -83,6 +84,18 @@ def check_difference(context, var_1, var_2, tuple_type, x, y, z):
     else:
         raise NotImplementedError(f"tuple type '{tuple_type}' not recognised")
     assert my_variable_1 - my_variable_2 == expected
+
+
+@then("magnitude({var}) = {expected:g}")
+def check_magnitude(context, var, expected):
+    my_variable = context.variables[var]
+    assert magnitude(my_variable) == expected
+
+
+@then("magnitude({var}) = √{expected:g}")
+def check_magnitude_2(context, var, expected):
+    my_variable = context.variables[var]
+    assert magnitude(my_variable) == math.sqrt(expected)
 
 
 @then("{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
