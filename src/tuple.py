@@ -1,3 +1,4 @@
+from __future__ import annotations
 import math
 from dataclasses import dataclass
 
@@ -9,7 +10,7 @@ class Tuple:
     z: float
     w: float
 
-    def __add__(self, other):
+    def __add__(self, other: Tuple) -> Tuple:
         return Tuple(
             self.x + other.x,
             self.y + other.y,
@@ -17,19 +18,19 @@ class Tuple:
             self.w + other.w,
         )
 
-    def __radd__(self, other):
+    def __radd__(self, other: Tuple) -> Tuple:
         if other == 0:
             return self
         else:
             return self.__add__(other)
 
-    def __neg__(self):
+    def __neg__(self) -> Tuple:
         return Tuple(-self.x, -self.y, -self.z, -self.w)
 
-    def __sub__(self, other):
+    def __sub__(self, other: Tuple) -> Tuple:
         return self + -other
 
-    def __mul__(self, other: float):
+    def __mul__(self, other: float) -> Tuple:
         return Tuple(
             self.x * other,
             self.y * other,
@@ -37,10 +38,10 @@ class Tuple:
             self.w * other,
         )
 
-    def __truediv__(self, other: float):
+    def __truediv__(self, other: float) -> Tuple:
         return self * (1 / other)
 
-    def approximately_equals(self, other) -> bool:
+    def approximately_equals(self, other: Tuple) -> bool:
         return (
             approximately_equals(self.x, other.x)
             and approximately_equals(self.y, other.y)
@@ -49,27 +50,27 @@ class Tuple:
         )
 
 
-def Point(x: float, y: float, z: float):
+def Point(x: float, y: float, z: float) -> Tuple:
     return Tuple(x, y, z, 1.0)
 
 
-def Vector(x: float, y: float, z: float):
+def Vector(x: float, y: float, z: float) -> Tuple:
     return Tuple(x, y, z, 0.0)
 
 
-def magnitude(p) -> float:
+def magnitude(p: Tuple) -> float:
     return math.sqrt(p.x * p.x + p.y * p.y + p.z * p.z)
 
 
-def normalize(p) -> Tuple:
+def normalize(p: Tuple) -> Tuple:
     return p / magnitude(p)
 
 
-def dot(a, b) -> float:
+def dot(a: Tuple, b: Tuple) -> float:
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
 
 
-def cross(a, b):
+def cross(a: Tuple, b: Tuple) -> Tuple:
     return Vector(
         a.y * b.z - a.z * b.y,
         a.z * b.x - a.x * b.z,
@@ -78,6 +79,6 @@ def cross(a, b):
 
 
 ## Helper Functions
-def approximately_equals(x: float, y: float):
+def approximately_equals(x: float, y: float) -> bool:
     EPSILON = 0.00001
     return abs(x - y) < EPSILON
