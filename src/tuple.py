@@ -1,6 +1,7 @@
 from __future__ import annotations
 import math
 from dataclasses import dataclass
+from src.helpers import approximately_equals
 
 
 @dataclass(frozen=True)
@@ -8,7 +9,7 @@ class Tuple:
     x: float
     y: float
     z: float
-    w: float = 0.0
+    w: float
 
     def __add__(self, other: Tuple) -> Tuple:
         return Tuple(
@@ -87,26 +88,3 @@ def cross(a: Tuple, b: Tuple) -> Tuple:
         a.z * b.x - a.x * b.z,
         a.x * b.y - a.y * b.x,
     )
-
-
-class Color(Tuple):
-    red = property(lambda self: self.x)
-    green = property(lambda self: self.y)
-    blue = property(lambda self: self.z)
-
-    def __repr__(self):
-        return f"Color(red={self.red}, green={self.green}, blue={self.blue})"
-
-
-## Helper Functions
-def approximately_equals(x: float, y: float) -> bool:
-    EPSILON = 0.00001
-    return abs(x - y) < EPSILON
-
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except (ValueError, TypeError):
-        return False

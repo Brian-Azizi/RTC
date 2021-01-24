@@ -1,4 +1,4 @@
-from src.tuple import Color
+from src.color import Color
 from typing import Callable
 
 
@@ -41,8 +41,3 @@ class Canvas:
             lines.append(line)
 
         return "\n".join(lines)
-
-
-## helper
-def clamp(n, smallest, largest):
-    return max(smallest, min(n, largest))

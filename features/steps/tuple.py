@@ -8,9 +8,9 @@ from src.tuple import (
     normalize,
     dot,
     cross,
-    Color,
-    is_number,
 )
+from src.color import Color
+from src.helpers import is_number
 
 
 @given("{var} ← tuple({x:g}, {y:g}, {z:g}, {w:g})")

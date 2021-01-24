@@ -1,6 +1,6 @@
 from behave import given, then, when
 from src.canvas import Canvas
-from src.tuple import Color
+from src.color import Color
 
 
 @given("{var} ← canvas({width:d}, {height:d})")
