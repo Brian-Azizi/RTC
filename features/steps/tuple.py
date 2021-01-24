@@ -1,5 +1,13 @@
-from behave import given, when, then
+from behave import given, then
 from src.tuple import Tuple, Point, Vector
+
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 
 @given("{var} ← tuple({x:g}, {y:g}, {z:g}, {w:g})")
@@ -47,19 +55,25 @@ def check_not_vector(context, var):
     assert my_variable.w != 0.0
 
 
-@then("{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
-def check_tuple(context, var_expression, x, y, z, w):
-    var_names = [v.strip() for v in var_expression.split("+")]
-    my_variables = [
-        -context.variables[var[1:]] if var[0] is "-" else context.variables[var]
-        for var in var_names
-    ]
+@then("{var_1} * {var_2} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
+def check_tuple_multiplication(context, var_1, var_2, x, y, z, w):
+    scalar = float(var_1) if is_number(var_1) else float(var_2)
+    my_variable = (
+        context.variables[var_1] if is_number(var_2) else context.variables[var_2]
+    )
     expected = Tuple(x, y, z, w)
-    assert sum(my_variables) == expected
+    assert my_variable * scalar == expected
+
+
+@then("{var} / {scalar:g} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
+def check_tuple_division(context, var, scalar, x, y, z, w):
+    my_variable = context.variables[var]
+    expected = Tuple(x, y, z, w)
+    assert my_variable / scalar == expected
 
 
 @then("{var_1} - {var_2} = {tuple_type}({x:g}, {y:g}, {z:g})")
-def step_impl(context, var_1, var_2, tuple_type, x, y, z):
+def check_difference(context, var_1, var_2, tuple_type, x, y, z):
     my_variable_1 = context.variables[var_1]
     my_variable_2 = context.variables[var_2]
     if tuple_type == "vector":
@@ -69,3 +83,14 @@ def step_impl(context, var_1, var_2, tuple_type, x, y, z):
     else:
         raise NotImplementedError(f"tuple type '{tuple_type}' not recognised")
     assert my_variable_1 - my_variable_2 == expected
+
+
+@then("{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
+def check_tuple(context, var_expression, x, y, z, w):
+    var_names = [v.strip() for v in var_expression.split("+")]
+    my_variables = [
+        -context.variables[var[1:]] if var[0] is "-" else context.variables[var]
+        for var in var_names
+    ]
+    expected = Tuple(x, y, z, w)
+    assert sum(my_variables) == expected

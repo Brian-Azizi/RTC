@@ -28,6 +28,17 @@ class Tuple:
     def __sub__(self, other):
         return self + -other
 
+    def __mul__(self, other):
+        return Tuple(
+            self.x * other,
+            self.y * other,
+            self.z * other,
+            self.w * other,
+        )
+
+    def __truediv__(self, other):
+        return self * (1 / other)
+
 
 def Point(x: float, y: float, z: float):
     return Tuple(x, y, z, 1.0)
