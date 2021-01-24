@@ -1,6 +1,6 @@
 import math
 from behave import given, then, when
-from src.tuple import Tuple, Point, Vector, magnitude, normalize
+from src.tuple import Tuple, Point, Vector, magnitude, normalize, dot, cross
 
 
 def is_number(s):
@@ -114,7 +114,7 @@ def check_approximate_normalize(context, var, x, y, z):
 def check_tuple(context, var_expression, x, y, z, w):
     var_names = [v.strip() for v in var_expression.split("+")]
     my_variables = [
-        -context.variables[var[1:]] if var[0] is "-" else context.variables[var]
+        -context.variables[var[1:]] if var[0] == "-" else context.variables[var]
         for var in var_names
     ]
     expected = Tuple(x, y, z, w)
@@ -122,6 +122,20 @@ def check_tuple(context, var_expression, x, y, z, w):
 
 
 @when("{var} ← normalize({other_var})")
-def step_impl(context, var, other_var):
+def assign_normalize(context, var, other_var):
     other = context.variables[other_var]
     context.variables[var] = normalize(other)
+
+
+@then("dot({var_1}, {var_2}) = {expected:g}")
+def check_dot(context, var_1, var_2, expected):
+    v1 = context.variables[var_1]
+    v2 = context.variables[var_2]
+    assert dot(v1, v2) == expected
+
+
+@then("cross({var_1}, {var_2}) = vector({x:g}, {y:g}, {z:g})")
+def check_cross(context, var_1, var_2, x, y, z):
+    v1 = context.variables[var_1]
+    v2 = context.variables[var_2]
+    assert cross(v1, v2) == Vector(x, y, z)
