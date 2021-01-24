@@ -47,8 +47,9 @@ def check_not_vector(context, var):
     assert my_variable.w != 0.0
 
 
-@then(u"{var} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
-def check_tuple(context, var, x, y, z, w):
-    my_variable = context.variables[var]
+@then(u"{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
+def check_tuple(context, var_expression, x, y, z, w):
+    var_names = [v.strip() for v in var_expression.split("+")]
+    my_variables = [context.variables[var] for var in var_names]
     expected = Tuple(x, y, z, w)
-    assert my_variable == expected
+    assert sum(my_variables) == expected
