@@ -28,8 +28,8 @@ class Color:
     def __sub__(self, other: Color) -> Color:
         return self + -other
 
-    def __mul__(self, other: float | Color) -> Color:
-        if isinstance(other, float):
+    def __mul__(self, other: float | int | Color) -> Color:
+        if isinstance(other, float) or isinstance(other, int):
             return Color(
                 self.red * other,
                 self.green * other,

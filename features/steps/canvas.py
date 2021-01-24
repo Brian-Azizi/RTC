@@ -8,6 +8,13 @@ def assign_canvas(context, var, width, height):
     context.variables[var] = Canvas(width, height)
 
 
+@when(u"every pixel of {var} is set to color({r:g}, {g:g}, {b:g})")
+def assign_all_pixels(context, var, r, g, b):
+    canvas = context.variables[var]
+    color = Color(r, g, b)
+    canvas.fill(color)
+
+
 @then("every pixel of {var} is color({x:g}, {y:g}, {z:g})")
 def check_all_canvas_pixels(context, var, x, y, z):
     canvas = context.variables[var]
@@ -42,5 +49,11 @@ def assign_ppm(context, ppm_var, canvas_var):
 @then("lines {start:d}-{end:d} of {ppm_var} are")
 def check_ppm_lines(context, start, end, ppm_var):
     ppm = context.variables[ppm_var]
-    print(ppm)
     assert context.text == "\n".join(ppm.split("\n")[start - 1 : end])
+
+
+@then(u"{ppm_var} ends with a newline character")
+def check_ppm_final_line(context, ppm_var):
+    ppm = context.variables[ppm_var]
+    lines = ppm.split("\n")
+    assert lines[-1] == ""
