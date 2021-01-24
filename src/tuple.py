@@ -22,6 +22,12 @@ class Tuple:
         else:
             return self.__add__(other)
 
+    def __neg__(self):
+        return Tuple(-self.x, -self.y, -self.z, -self.w)
+
+    def __sub__(self, other):
+        return self + -other
+
 
 def Point(x: float, y: float, z: float):
     return Tuple(x, y, z, 1.0)

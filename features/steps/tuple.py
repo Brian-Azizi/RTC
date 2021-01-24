@@ -7,7 +7,7 @@ def assign_tuple(context, var, x, y, z, w):
     context.variables[var] = Tuple(x, y, z, w)
 
 
-@given(u"{var} ← point({x:g}, {y:g}, {z:g})")
+@given("{var} ← point({x:g}, {y:g}, {z:g})")
 def assign_point(context, var, x, y, z):
     context.variables[var] = Point(x, y, z)
 
@@ -47,9 +47,25 @@ def check_not_vector(context, var):
     assert my_variable.w != 0.0
 
 
-@then(u"{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
+@then("{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
 def check_tuple(context, var_expression, x, y, z, w):
     var_names = [v.strip() for v in var_expression.split("+")]
-    my_variables = [context.variables[var] for var in var_names]
+    my_variables = [
+        -context.variables[var[1:]] if var[0] is "-" else context.variables[var]
+        for var in var_names
+    ]
     expected = Tuple(x, y, z, w)
     assert sum(my_variables) == expected
+
+
+@then("{var_1} - {var_2} = {tuple_type}({x:g}, {y:g}, {z:g})")
+def step_impl(context, var_1, var_2, tuple_type, x, y, z):
+    my_variable_1 = context.variables[var_1]
+    my_variable_2 = context.variables[var_2]
+    if tuple_type == "vector":
+        expected = Vector(x, y, z)
+    elif tuple_type == "point":
+        expected = Point(x, y, z)
+    else:
+        raise NotImplementedError(f"tuple type '{tuple_type}' not recognised")
+    assert my_variable_1 - my_variable_2 == expected
