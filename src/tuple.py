@@ -4,12 +4,20 @@ from dataclasses import dataclass
 from src.helpers import approximately_equals
 
 
-@dataclass(frozen=True)
+@dataclass
 class Tuple:
     x: float
     y: float
     z: float
-    w: float
+    w: float = 0.0
+
+    def __eq__(self, other):
+        return (
+            self.x == other.x
+            and self.y == other.y
+            and self.z == other.z
+            and self.w == other.w
+        )
 
     def __add__(self, other: Tuple) -> Tuple:
         return Tuple(
@@ -62,12 +70,24 @@ class Tuple:
         )
 
 
-def Point(x: float, y: float, z: float) -> Tuple:
-    return Tuple(x, y, z, 1.0)
+@dataclass(init=False)
+class Point(Tuple):
+    x: float
+    y: float
+    z: float
+
+    def __init__(self, x, y, z):
+        super().__init__(x, y, z, 1.0)
 
 
-def Vector(x: float, y: float, z: float) -> Tuple:
-    return Tuple(x, y, z, 0.0)
+@dataclass(init=False)
+class Vector(Tuple):
+    x: float
+    y: float
+    z: float
+
+    def __init__(self, x, y, z):
+        super().__init__(x, y, z, 0)
 
 
 def magnitude(p: Tuple) -> float:
