@@ -30,8 +30,8 @@ class Tuple:
     def __sub__(self, other: Tuple) -> Tuple:
         return self + -other
 
-    def __mul__(self, other: float) -> Tuple:
-        if is_number(other):
+    def __mul__(self, other: float | Tuple) -> Tuple:
+        if isinstance(other, float):
             return Tuple(
                 self.x * other,
                 self.y * other,
