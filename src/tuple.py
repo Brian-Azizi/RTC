@@ -8,7 +8,7 @@ class Tuple:
     x: float
     y: float
     z: float
-    w: float
+    w: float = 0.0
 
     def __add__(self, other: Tuple) -> Tuple:
         return Tuple(
@@ -31,12 +31,23 @@ class Tuple:
         return self + -other
 
     def __mul__(self, other: float) -> Tuple:
-        return Tuple(
-            self.x * other,
-            self.y * other,
-            self.z * other,
-            self.w * other,
-        )
+        if is_number(other):
+            return Tuple(
+                self.x * other,
+                self.y * other,
+                self.z * other,
+                self.w * other,
+            )
+        else:
+            return Tuple(
+                self.x * other.x,
+                self.y * other.y,
+                self.z * other.z,
+                self.w * other.w,
+            )
+
+    def __rmul__(self, other: float) -> Tuple:
+        return self * other
 
     def __truediv__(self, other: float) -> Tuple:
         return self * (1 / other)
@@ -78,7 +89,24 @@ def cross(a: Tuple, b: Tuple) -> Tuple:
     )
 
 
+class Color(Tuple):
+    red = property(lambda self: self.x)
+    green = property(lambda self: self.y)
+    blue = property(lambda self: self.z)
+
+    def __repr__(self):
+        return f"Color(red={self.red}, green={self.green}, blue={self.blue})"
+
+
 ## Helper Functions
 def approximately_equals(x: float, y: float) -> bool:
     EPSILON = 0.00001
     return abs(x - y) < EPSILON
+
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except (ValueError, TypeError):
+        return False
