@@ -40,6 +40,14 @@ class Tuple:
     def __truediv__(self, other):
         return self * (1 / other)
 
+    def approximately_equals(self, other):
+        return (
+            approximately_equals(self.x, other.x)
+            and approximately_equals(self.y, other.y)
+            and approximately_equals(self.z, other.z)
+            and approximately_equals(self.w, other.w)
+        )
+
 
 def Point(x: float, y: float, z: float):
     return Tuple(x, y, z, 1.0)
@@ -51,3 +59,13 @@ def Vector(x: float, y: float, z: float):
 
 def magnitude(p: Tuple):
     return math.sqrt(p.x * p.x + p.y * p.y + p.z * p.z)
+
+
+def normalize(p: Tuple):
+    return p / magnitude(p)
+
+
+## Helper Functions
+def approximately_equals(x, y):
+    EPSILON = 0.00001
+    return abs(x - y) < EPSILON

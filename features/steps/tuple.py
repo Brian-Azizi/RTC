@@ -1,6 +1,6 @@
 import math
-from behave import given, then
-from src.tuple import Tuple, Point, Vector, magnitude
+from behave import given, then, when
+from src.tuple import Tuple, Point, Vector, magnitude, normalize
 
 
 def is_number(s):
@@ -98,6 +98,18 @@ def check_magnitude_2(context, var, expected):
     assert magnitude(my_variable) == math.sqrt(expected)
 
 
+@then("normalize({var}) = vector({x:g}, {y:g}, {z:g})")
+def check_normalize(context, var, x, y, z):
+    my_variable = context.variables[var]
+    assert normalize(my_variable) == Vector(x, y, z)
+
+
+@then("normalize({var}) = approximately vector({x:g}, {y:g}, {z:g})")
+def check_approximate_normalize(context, var, x, y, z):
+    my_variable = context.variables[var]
+    assert normalize(my_variable).approximately_equals(Vector(x, y, z))
+
+
 @then("{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
 def check_tuple(context, var_expression, x, y, z, w):
     var_names = [v.strip() for v in var_expression.split("+")]
@@ -107,3 +119,9 @@ def check_tuple(context, var_expression, x, y, z, w):
     ]
     expected = Tuple(x, y, z, w)
     assert sum(my_variables) == expected
+
+
+@when("{var} ← normalize({other_var})")
+def step_impl(context, var, other_var):
+    other = context.variables[other_var]
+    context.variables[var] = normalize(other)
