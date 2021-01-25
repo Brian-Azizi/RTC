@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from src.tuple import Point, Vector, normalize
+from src.tuple import Point, Vector, point, vector, normalize
 
 
 @dataclass
@@ -22,8 +22,8 @@ def tick(environment, projectile):
 
 def run():
     projectile = Projectile(
-        Point(0, 1, 0),
-        normalize(Vector(1, 1, 0)),
+        point(0, 1, 0),
+        normalize(vector(1, 1, 0)),
     )
 
 

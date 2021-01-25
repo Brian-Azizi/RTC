@@ -63,11 +63,16 @@ class Tuple:
         )
 
 
-def Point(x: float, y: float, z: float) -> Tuple:
+# Type aliases
+Vector = Tuple
+Point = Tuple
+
+
+def point(x: float, y: float, z: float) -> Point:
     return Tuple(x, y, z, 1.0)
 
 
-def Vector(x: float, y: float, z: float) -> Tuple:
+def vector(x: float, y: float, z: float) -> Vector:
     return Tuple(x, y, z, 0.0)
 
 
@@ -83,8 +88,8 @@ def dot(a: Tuple, b: Tuple) -> float:
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
 
 
-def cross(a: Tuple, b: Tuple) -> Tuple:
-    return Vector(
+def cross(a: Vector, b: Vector) -> Vector:
+    return vector(
         a.y * b.z - a.z * b.y,
         a.z * b.x - a.x * b.z,
         a.x * b.y - a.y * b.x,

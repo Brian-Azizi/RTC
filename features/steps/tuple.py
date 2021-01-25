@@ -2,8 +2,8 @@ import math
 from behave import given, then, when
 from src.tuple import (
     Tuple,
-    Point,
-    Vector,
+    point,
+    vector,
     magnitude,
     normalize,
     dot,
@@ -20,12 +20,12 @@ def assign_tuple(context, var, x, y, z, w):
 
 @given("{var} ← point({x:g}, {y:g}, {z:g})")
 def assign_point(context, var, x, y, z):
-    context.variables[var] = Point(x, y, z)
+    context.variables[var] = point(x, y, z)
 
 
 @given("{var} ← vector({x:g}, {y:g}, {z:g})")
 def assign_vector(context, var, x, y, z):
-    context.variables[var] = Vector(x, y, z)
+    context.variables[var] = vector(x, y, z)
 
 
 @given("{var} ← color({x:g}, {y:g}, {z:g})")
@@ -80,9 +80,9 @@ def check_tuple_division(context, var, scalar, x, y, z, w):
 
 def create_tuple(tuple_type, x, y, z):
     if tuple_type == "vector":
-        return Vector(x, y, z)
+        return vector(x, y, z)
     elif tuple_type == "point":
-        return Point(x, y, z)
+        return point(x, y, z)
     elif tuple_type == "color":
         return Color(x, y, z)
     else:
@@ -128,13 +128,13 @@ def check_magnitude_2(context, var, expected):
 @then("normalize({var}) = vector({x:g}, {y:g}, {z:g})")
 def check_normalize(context, var, x, y, z):
     my_variable = context.variables[var]
-    assert normalize(my_variable) == Vector(x, y, z)
+    assert normalize(my_variable) == vector(x, y, z)
 
 
 @then("normalize({var}) = approximately vector({x:g}, {y:g}, {z:g})")
 def check_approximate_normalize(context, var, x, y, z):
     my_variable = context.variables[var]
-    assert normalize(my_variable).approximately_equals(Vector(x, y, z))
+    assert normalize(my_variable).approximately_equals(vector(x, y, z))
 
 
 @then("{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
@@ -165,4 +165,4 @@ def check_dot(context, var_1, var_2, expected):
 def check_cross(context, var_1, var_2, x, y, z):
     v1 = context.variables[var_1]
     v2 = context.variables[var_2]
-    assert cross(v1, v2) == Vector(x, y, z)
+    assert cross(v1, v2) == vector(x, y, z)
