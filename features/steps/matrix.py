@@ -10,7 +10,13 @@ def get_raw_matrix_from_behave_table(table: model.Table) -> RawMatrix:
 
 
 @given("the following {n:d}x{m:d} matrix {var}")
-def assign_matrix(context, var, n, m):
+def assign_matrix_1(context, var, n, m):
+    raw_matrix = get_raw_matrix_from_behave_table(context.table)
+    context.variables[var] = Matrix(raw_matrix)
+
+
+@given(u"the following matrix {var}")
+def assign_matrix_2(context, var):
     raw_matrix = get_raw_matrix_from_behave_table(context.table)
     context.variables[var] = Matrix(raw_matrix)
 
@@ -19,3 +25,19 @@ def assign_matrix(context, var, n, m):
 def check_matrix_entry(context, var, i, j, value):
     matrix = context.variables[var]
     assert matrix.at(i, j) == value
+
+
+@then("{var_1:w} = {var_2:w}")
+def check_equality(context, var_1, var_2):
+    matrix_1 = context.variables[var_1]
+    matrix_2 = context.variables[var_2]
+
+    assert matrix_1 == matrix_2
+
+
+@then("{var_1:w} != {var_2:w}")
+def check_inequality(context, var_1, var_2):
+    matrix_1 = context.variables[var_1]
+    matrix_2 = context.variables[var_2]
+
+    assert matrix_1 != matrix_2

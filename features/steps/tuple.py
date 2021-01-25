@@ -45,7 +45,7 @@ def assign_color(context, var, x, y, z):
     context.variables[var] = Color(x, y, z)
 
 
-@then("{var}.{att} = {num:g}")
+@then("{var:w}.{att:w} = {num:g}")
 def check_tuple_attribute(context, var, att, num):
     my_variable = context.variables[var]
     assert getattr(my_variable, att) == num
