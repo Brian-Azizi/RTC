@@ -20,8 +20,9 @@ def check_all_canvas_pixels(context, var, x, y, z):
     canvas = context.variables[var]
     expected = Color(x, y, z)
 
-    def check_pixel(p: Color):
+    def check_pixel(p: Color) -> None:
         assert p == expected
+        return None
 
     canvas.for_each_pixel(check_pixel)
 

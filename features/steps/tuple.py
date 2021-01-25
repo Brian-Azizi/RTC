@@ -1,5 +1,6 @@
 import math
 from behave import given, then, when
+from typing import Union
 from src.tuple import (
     Tuple,
     point,
@@ -11,6 +12,17 @@ from src.tuple import (
 )
 from src.color import Color
 from src.helpers import is_number
+
+
+def create_tuple(tuple_type: str, x: float, y: float, z: float) -> Union[Tuple, Color]:
+    if tuple_type == "vector":
+        return vector(x, y, z)
+    elif tuple_type == "point":
+        return point(x, y, z)
+    elif tuple_type == "color":
+        return Color(x, y, z)
+    else:
+        raise NotImplementedError(f"tuple type '{tuple_type}' not recognized")
 
 
 @given("{var} ← tuple({x:g}, {y:g}, {z:g}, {w:g})")
@@ -76,17 +88,6 @@ def check_tuple_division(context, var, scalar, x, y, z, w):
     my_variable = context.variables[var]
     expected = Tuple(x, y, z, w)
     assert my_variable / scalar == expected
-
-
-def create_tuple(tuple_type, x, y, z):
-    if tuple_type == "vector":
-        return vector(x, y, z)
-    elif tuple_type == "point":
-        return point(x, y, z)
-    elif tuple_type == "color":
-        return Color(x, y, z)
-    else:
-        raise NotImplementedError(f"tuple type '{tuple_type}' not recognised")
 
 
 @then("{var_1} - {var_2} = {tuple_type}({x:g}, {y:g}, {z:g})")

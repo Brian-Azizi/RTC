@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Union
+from typing import Union, Literal
 from src.helpers import approximately_equals
 
 
@@ -17,7 +17,7 @@ class Color:
             self.blue + other.blue,
         )
 
-    def __radd__(self, other: Color) -> Color:
+    def __radd__(self, other: Union[Color, Literal[0]]) -> Color:
         if other == 0:
             return self
         else:

@@ -14,13 +14,13 @@ class Environment:
     wind: Vector
 
 
-def tick(environment, projectile):
+def tick(environment: Environment, projectile: Projectile) -> Projectile:
     position = projectile.position + projectile.velocity
     velocity = projectile.velocity + environment.gravity + environment.wind
     return Projectile(position, velocity)
 
 
-def run():
+def run() -> None:
     projectile = Projectile(
         point(0, 1, 0),
         normalize(vector(1, 1, 0)),

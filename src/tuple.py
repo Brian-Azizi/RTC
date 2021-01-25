@@ -2,7 +2,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 from src.helpers import approximately_equals
-from typing import Union
+from typing import Union, Literal
 
 
 @dataclass(frozen=True)
@@ -20,7 +20,7 @@ class Tuple:
             self.w + other.w,
         )
 
-    def __radd__(self, other: Tuple) -> Tuple:
+    def __radd__(self, other: Union[Tuple, Literal[0]]) -> Tuple:
         if other == 0:
             return self
         else:

@@ -9,10 +9,10 @@ class Canvas:
     PPM_MAX_LINE_LENGTH = 70
 
     @classmethod
-    def pixel_to_ppm_str(cls, pixel: Color):
+    def pixel_to_ppm_str(cls, pixel: Color) -> str:
         scaled = pixel * cls.MAX_COLOR_VALUE
 
-        def clamped(number):
+        def clamped(number: float) -> int:
             return int(round(clamp(number, 0, cls.MAX_COLOR_VALUE)))
 
         return f"{clamped(scaled.red)} {clamped(scaled.green)} {clamped(scaled.blue)}"
@@ -32,13 +32,13 @@ class Canvas:
     def write_pixel(self, x: int, y: int, pixel: Color) -> None:
         self.grid[y][x] = pixel
 
-    def fill(self, pixel: Color):
+    def fill(self, pixel: Color) -> None:
         self.grid = [[pixel for i in range(self.width)] for j in range(self.height)]
 
     def pixel_at(self, x: int, y: int) -> Color:
         return self.grid[y][x]
 
-    def to_ppm(self):
+    def to_ppm(self) -> str:
         lines = [
             self.PPM_MAGIC_NUMBER,
             f"{self.width} {self.height}",
