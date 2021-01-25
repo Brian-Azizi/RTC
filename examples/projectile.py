@@ -25,6 +25,14 @@ def run() -> None:
         point(0, 1, 0),
         normalize(vector(1, 1, 0)),
     )
+    environment = Environment(
+        vector(0, -0.1, 0),
+        vector(-0.01, 0, 0),
+    )
+    num_ticks = 0
+    while projectile.position.y >= 0:
+        projectile = tick(environment, projectile)
+        num_ticks += 1
 
-
-run()
+    print(projectile)
+    print(f"Projectile flew for {num_ticks} ticks.")
