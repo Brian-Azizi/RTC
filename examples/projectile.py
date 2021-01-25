@@ -20,6 +20,7 @@ class Environment:
 def tick(environment: Environment, projectile: Projectile) -> Projectile:
     position = projectile.position + projectile.velocity
     velocity = projectile.velocity + environment.gravity + environment.wind
+
     return Projectile(position, velocity)
 
 
@@ -33,13 +34,13 @@ def draw_projectile(canvas: Canvas, projectile: Projectile) -> None:
 
 def run() -> None:
     start = point(0, 1, 0)
-    velocity = normalize(vector(1, 1, 0))
-    gravity = vector(0, -0.1, 0)
-    wind = vector(-0.01, 0, 0)
+    velocity = normalize(vector(3, 3, 0)) * 15
+    gravity = vector(0, -0.15, 0)
+    wind = vector(-0.1, 0, 0)
 
     projectile = Projectile(start, velocity)
     environment = Environment(gravity, wind)
-    canvas = Canvas(10, 10)
+    canvas = Canvas(900, 500)
 
     draw_projectile(canvas, projectile)
     num_ticks = 0
@@ -50,9 +51,12 @@ def run() -> None:
 
     ppm = PPM(canvas)
 
-    print(ppm.to_string())
     print(f"Projectile flew for {num_ticks} ticks.")
 
     file_name = "projectile.ppm"
     ppm.save_to_file(file_name)
     print(f"Output stored to {file_name}")
+
+
+if __name__ == "__main__":
+    run()

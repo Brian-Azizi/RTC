@@ -6,3 +6,7 @@ lint:
 
 format:
 	black .
+
+ex-projectile:
+	python -m examples.projectile
+	open projectile.ppm
