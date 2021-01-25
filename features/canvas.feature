@@ -12,6 +12,13 @@ Feature: Canvas
     When write_pixel(c, 2, 3, red)
     Then pixel_at(c, 2, 3) = red
 
+  Scenario: Writing pixels outside the canvas
+    Given c ← canvas(10, 20)
+    And red ← color(1, 0, 0)
+    When write_pixel(c, -1, -1, red)
+    And write_pixel(c, 10, 20, red)
+    Then every pixel of c is color(0, 0, 0)
+
   Scenario: Constructing the PPM header
     Given c ← canvas(5, 3)
     When ppm ← canvas_to_ppm(c)

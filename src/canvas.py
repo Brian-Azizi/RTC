@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Optional
 from src.color import Color
 from src.helpers import clamp
 
@@ -30,13 +30,14 @@ class Canvas:
                 callback(pixel)
 
     def write_pixel(self, x: int, y: int, pixel: Color) -> None:
-        self.grid[y][x] = pixel
+        if self.is_inside(x, y):
+            self.grid[y][x] = pixel
 
     def fill(self, pixel: Color) -> None:
         self.grid = [[pixel for i in range(self.width)] for j in range(self.height)]
 
-    def pixel_at(self, x: int, y: int) -> Color:
-        return self.grid[y][x]
+    def pixel_at(self, x: int, y: int) -> Optional[Color]:
+        return self.grid[y][x] if self.is_inside(x, y) else None
 
     def to_ppm(self) -> str:
         lines = [
@@ -59,3 +60,6 @@ class Canvas:
         lines.append("")
 
         return "\n".join(lines)
+
+    def is_inside(self, x: int, y: int) -> bool:
+        return 0 <= x and x < self.width and 0 <= y and y <= self.height
