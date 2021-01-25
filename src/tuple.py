@@ -33,19 +33,19 @@ class Tuple:
         return self + -other
 
     def __mul__(self, other: Union[float, int, Tuple]) -> Tuple:
-        if isinstance(other, float):
-            return Tuple(
-                self.x * other,
-                self.y * other,
-                self.z * other,
-                self.w * other,
-            )
-        else:
+        if isinstance(other, Tuple):
             return Tuple(
                 self.x * other.x,
                 self.y * other.y,
                 self.z * other.z,
                 self.w * other.w,
+            )
+        else:
+            return Tuple(
+                self.x * other,
+                self.y * other,
+                self.z * other,
+                self.w * other,
             )
 
     def __rmul__(self, other: float) -> Tuple:

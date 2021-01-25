@@ -30,17 +30,17 @@ class Color:
         return self + -other
 
     def __mul__(self, other: Union[float, int, Color]) -> Color:
-        if isinstance(other, float) or isinstance(other, int):
-            return Color(
-                self.red * other,
-                self.green * other,
-                self.blue * other,
-            )
-        else:
+        if isinstance(other, Color):
             return Color(
                 self.red * other.red,
                 self.green * other.green,
                 self.blue * other.blue,
+            )
+        else:
+            return Color(
+                self.red * other,
+                self.green * other,
+                self.blue * other,
             )
 
     def __rmul__(self, other: float) -> Color:
