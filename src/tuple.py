@@ -5,20 +5,12 @@ from src.helpers import approximately_equals
 from typing import Union
 
 
-@dataclass
+@dataclass(frozen=True)
 class Tuple:
     x: float
     y: float
     z: float
-    w: float = 0.0
-
-    def __eq__(self, other):
-        return (
-            self.x == other.x
-            and self.y == other.y
-            and self.z == other.z
-            and self.w == other.w
-        )
+    w: float
 
     def __add__(self, other: Tuple) -> Tuple:
         return Tuple(
@@ -71,24 +63,12 @@ class Tuple:
         )
 
 
-@dataclass(init=False)
-class Point(Tuple):
-    x: float
-    y: float
-    z: float
-
-    def __init__(self, x, y, z):
-        super().__init__(x, y, z, 1.0)
+def Point(x: float, y: float, z: float) -> Tuple:
+    return Tuple(x, y, z, 1.0)
 
 
-@dataclass(init=False)
-class Vector(Tuple):
-    x: float
-    y: float
-    z: float
-
-    def __init__(self, x, y, z):
-        super().__init__(x, y, z, 0)
+def Vector(x: float, y: float, z: float) -> Tuple:
+    return Tuple(x, y, z, 0.0)
 
 
 def magnitude(p: Tuple) -> float:
