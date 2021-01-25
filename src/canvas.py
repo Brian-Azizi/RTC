@@ -8,15 +8,6 @@ class Canvas:
     MAX_COLOR_VALUE = 255
     PPM_MAX_LINE_LENGTH = 70
 
-    @classmethod
-    def pixel_to_ppm_str(cls, pixel: Color) -> str:
-        scaled = pixel * cls.MAX_COLOR_VALUE
-
-        def clamped(number: float) -> int:
-            return int(round(clamp(number, 0, cls.MAX_COLOR_VALUE)))
-
-        return f"{clamped(scaled.red)} {clamped(scaled.green)} {clamped(scaled.blue)}"
-
     def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
@@ -38,28 +29,6 @@ class Canvas:
 
     def pixel_at(self, x: int, y: int) -> Optional[Color]:
         return self.grid[y][x] if self.is_inside(x, y) else None
-
-    def to_ppm(self) -> str:
-        lines = [
-            self.PPM_MAGIC_NUMBER,
-            f"{self.width} {self.height}",
-            str(self.MAX_COLOR_VALUE),
-        ]
-
-        for row in self.grid:
-            line = ""
-            for pixel in row:
-                line += self.pixel_to_ppm_str(pixel) + " "
-
-            while len(line) > self.PPM_MAX_LINE_LENGTH:
-                index = line.rfind(" ", 0, self.PPM_MAX_LINE_LENGTH)
-                lines.append(line[:index])
-                line = line[index:]
-            lines.append(line.strip())
-
-        lines.append("")
-
-        return "\n".join(lines)
 
     def is_inside(self, x: int, y: int) -> bool:
         return 0 <= x and x < self.width and 0 <= y and y <= self.height

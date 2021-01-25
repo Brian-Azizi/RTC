@@ -1,6 +1,7 @@
 from behave import given, then, when
 from src.canvas import Canvas
 from src.color import Color
+from src.ppm import PPM
 
 
 @given("{var} ← canvas({width:d}, {height:d})")
@@ -44,7 +45,8 @@ def check_canvas_pixel(context, canvas_var, x, y, pixel_var):
 @when("{ppm_var} ← canvas_to_ppm({canvas_var})")
 def assign_ppm(context, ppm_var, canvas_var):
     canvas = context.variables[canvas_var]
-    context.variables[ppm_var] = canvas.to_ppm()
+    ppm = PPM(canvas)
+    context.variables[ppm_var] = ppm.to_string()
 
 
 @then("lines {start:d}-{end:d} of {ppm_var} are")
