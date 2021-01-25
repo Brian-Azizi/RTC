@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+from typing import Union
 from src.helpers import approximately_equals
 
 
@@ -28,7 +29,7 @@ class Color:
     def __sub__(self, other: Color) -> Color:
         return self + -other
 
-    def __mul__(self, other: float | int | Color) -> Color:
+    def __mul__(self, other: Union[float, int, Color]) -> Color:
         if isinstance(other, float) or isinstance(other, int):
             return Color(
                 self.red * other,

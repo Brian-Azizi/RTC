@@ -2,6 +2,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 from src.helpers import approximately_equals
+from typing import Union
 
 
 @dataclass
@@ -39,7 +40,7 @@ class Tuple:
     def __sub__(self, other: Tuple) -> Tuple:
         return self + -other
 
-    def __mul__(self, other: float | Tuple) -> Tuple:
+    def __mul__(self, other: Union[float, int, Tuple]) -> Tuple:
         if isinstance(other, float):
             return Tuple(
                 self.x * other,
