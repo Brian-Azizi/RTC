@@ -31,4 +31,4 @@ class Canvas:
         return self.grid[y][x] if self.is_inside(x, y) else None
 
     def is_inside(self, x: int, y: int) -> bool:
-        return 0 <= x and x < self.width and 0 <= y and y <= self.height
+        return 0 <= x and x < self.width and 0 <= y and y < self.height

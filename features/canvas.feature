@@ -15,8 +15,10 @@ Feature: Canvas
   Scenario: Writing pixels outside the canvas
     Given c ← canvas(10, 20)
     And red ← color(1, 0, 0)
-    When write_pixel(c, -1, -1, red)
-    And write_pixel(c, 10, 20, red)
+    When write_pixel(c, -1, 0, red)
+    When write_pixel(c, 0, -1, red)
+    And write_pixel(c, 0, 20, red)
+    And write_pixel(c, 10, 0, red)
     Then every pixel of c is color(0, 0, 0)
 
   Scenario: Constructing the PPM header
