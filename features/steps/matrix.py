@@ -1,5 +1,5 @@
 from behave import given, then, model
-from src.matrix import Matrix, RawMatrix, identity
+from src.matrix import Matrix, RawMatrix, identity, transpose
 
 
 def get_raw_matrix_from_behave_table(table: model.Table) -> RawMatrix:
@@ -71,3 +71,17 @@ def identity_pre(context, var):
     matrix = context.variables[var]
     identity_matrix = identity(matrix.num_rows)
     assert identity_matrix * matrix == matrix
+
+
+@then("transpose({var:w}) is the following matrix")
+def check_transpose(context, var):
+    matrix = context.variables[var]
+    expected = Matrix(get_raw_matrix_from_behave_table(context.table))
+    assert transpose(matrix) == expected
+
+
+@given("{var:w} ← transpose(identity_matrix)")
+def assign_identity_transpose(context, var):
+    identity_matrix = identity(4)
+    context.variables[var] = transpose(identity_matrix)
+    context.variables["identity_matrix"] = identity_matrix

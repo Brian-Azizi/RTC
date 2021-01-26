@@ -96,3 +96,13 @@ def zeros(num_rows: int, num_cols: int) -> Matrix:
 def identity(n: int) -> Matrix:
     raw = [[1.0 if i == j else 0.0 for i in range(n)] for j in range(n)]
     return Matrix(raw)
+
+
+def transpose(m: Matrix) -> Matrix:
+    result = zeros(m.num_cols, m.num_rows)
+
+    for i in range(m.num_rows):
+        for j in range(m.num_cols):
+            result.set(j, i, m.at(i, j))
+
+    return result
