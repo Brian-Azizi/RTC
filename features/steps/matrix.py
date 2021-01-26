@@ -157,5 +157,29 @@ def check_cell(context, var, i, j, numerator, denominator):
 def check_matrix(context, var):
     matrix = context.variables[var]
     expected = Matrix(get_raw_matrix_from_behave_table(context.table))
-    print(matrix)
-    assert matrix == expected
+    assert matrix.approximately_equals(expected)
+
+
+@then("inverse({var:w}) is the following 4x4 matrix")
+def check_inverse_matrix(context, var):
+    matrix = context.variables[var]
+    expected = Matrix(get_raw_matrix_from_behave_table(context.table))
+    assert inverse(matrix).approximately_equals(expected)
+
+
+@given("{var_c:w} ← {var_a:w} * {var_b}")
+def assign_multiplication(context, var_a, var_b, var_c):
+    matrix_a = context.variables[var_a]
+    matrix_b = context.variables[var_b]
+    context.variables[var_c] = matrix_a * matrix_b
+
+
+@then("{var_c:w} * inverse({var_b:w}) = {var_a:w}")
+def check_inverse_multiplication(context, var_a, var_b, var_c):
+    matrix_a = context.variables[var_a]
+    matrix_b = context.variables[var_b]
+    matrix_c = context.variables[var_c]
+
+    print(matrix_a)
+    print(matrix_c * inverse(matrix_b))
+    assert matrix_c * inverse(matrix_b) == matrix_a

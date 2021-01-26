@@ -3,11 +3,16 @@ from typing import Union, Any
 Num = Union[int, float]
 
 
-EPSILON = 0.00001
+SHORT_EPSILON = 0.00001
+LONG_EPSILON = 0.00000000001
 
 
 def approximately_equals(x: Num, y: Num) -> bool:
-    return abs(x - y) < EPSILON
+    return abs(x - y) < SHORT_EPSILON
+
+
+def equals(x: Num, y: Num) -> bool:
+    return abs(x - y) < LONG_EPSILON
 
 
 def is_number(s: Any) -> bool:

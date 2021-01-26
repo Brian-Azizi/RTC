@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List, Tuple as TupleType, Union
 from src.tuple import Tuple
-from src.helpers import EPSILON
+from src.helpers import approximately_equals, equals
 
 RawMatrix = List[List[float]]
 
@@ -30,7 +30,7 @@ class Matrix:
 
             for i in range(self.num_rows):
                 for j in range(self.num_cols):
-                    if self[i, j] != other[i, j]:
+                    if not equals(self[i, j], other[i, j]):
                         return False
             return True
 
@@ -93,6 +93,21 @@ class Matrix:
     def num_cols(self) -> int:
         return len(self.raw_matrix[0])
 
+    def approximately_equals(self, other: Matrix) -> bool:
+        if isinstance(other, Matrix):
+            if self.num_rows != other.num_rows:
+                return False
+            if self.num_cols != other.num_cols:
+                return False
+
+            for i in range(self.num_rows):
+                for j in range(self.num_cols):
+                    if not approximately_equals(self[i, j], other[i, j]):
+                        return False
+            return True
+
+        return False
+
 
 def zeros(num_rows: int, num_cols: int) -> Matrix:
     raw = [[0.0 for i in range(num_cols)] for j in range(num_rows)]
@@ -146,16 +161,17 @@ def minor(m: Matrix, i: int, j: int) -> float:
 
 def cofactor(m: Matrix, i: int, j: int) -> float:
     m_minor = minor(m, i, j)
-    return m_minor if i + j % 2 == 0 else -m_minor
+    return m_minor if (i + j) % 2 == 0 else -m_minor
 
 
 def is_invertible(m: Matrix) -> bool:
-    return abs(determinant(m)) > EPSILON
+    det = determinant(m)
+    return not equals(det, 0)
 
 
 def inverse(m: Matrix) -> Matrix:
     det = determinant(m)
-    if abs(det) < EPSILON:
+    if equals(det, 0):
         raise ValueError("Matrix is not invertible")
 
     result = zeros(m.num_rows, m.num_cols)
