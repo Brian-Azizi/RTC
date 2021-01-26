@@ -30,7 +30,7 @@ def run() -> None:
             SIZE - int(round(canvas_position.y)),
             color,
         )
-        position = rotate * position  # type: ignore
+        position = rotate * position
         color += color_increment
 
     ppm = PPM(canvas)

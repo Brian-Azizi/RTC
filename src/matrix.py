@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Tuple as TupleType, Union
+from typing import List, Tuple as TupleType, Union, overload
 from src.tuple import Tuple
 from src.helpers import approximately_equals, equals
 
@@ -36,7 +36,15 @@ class Matrix:
 
         return False
 
-    def __mul__(self, other: Union[Matrix, Tuple]) -> Union[Matrix, Tuple]:
+    @overload
+    def __mul__(self, other: Matrix) -> Matrix:
+        pass
+
+    @overload
+    def __mul__(self, other: Tuple) -> Tuple:
+        pass
+
+    def __mul__(self, other):
         if isinstance(other, Matrix):
             if self.num_cols != other.num_rows:
                 raise ValueError(

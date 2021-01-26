@@ -45,7 +45,8 @@ def assign_color(context, var, x, y, z):
     context.variables[var] = Color(x, y, z)
 
 
-@then("{var:w}.{att:w} = {expected}")
+@then("{var:w}.{att:w} = {expected:w}")
+@then("{var:w}.{att:w} = {expected:g}")
 def check_attribute(context, var, att, expected):
     exp = float(expected) if is_number(expected) else context.variables[expected]
     my_variable = context.variables[var]
@@ -174,7 +175,7 @@ def check_tuple(context, var_expression, x, y, z, w):
     assert sum(my_variables) == expected
 
 
-@then("{var} = {tuple_type}({x:g}, {y:g}, {z:g})")
+@then("{var:w} = {tuple_type}({x:g}, {y:g}, {z:g})")
 def check_tuple_type(context, var, tuple_type, x, y, z):
     variable = float(var) if is_number(var) else context.variables[var]
     expected = create_tuple(tuple_type, x, y, z)

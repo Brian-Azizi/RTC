@@ -1,5 +1,5 @@
 from behave import when, then, given
-from src.rays import Ray, position
+from src.rays import Ray, position, transform
 from src.tuple import vector, point
 
 
@@ -10,7 +10,7 @@ def assign_ray(context, var, orig, dir):
     context.variables[var] = Ray(origin, direction)
 
 
-@given(u"{var:w} ← ray(point({px:g}, {py:g}, {pz:g}), vector({vx:g}, {vy:g}, {vz:g}))")
+@given("{var:w} ← ray(point({px:g}, {py:g}, {pz:g}), vector({vx:g}, {vy:g}, {vz:g}))")
 def assign_ray_inline(context, var, px, py, pz, vx, vy, vz):
     origin = point(px, py, pz)
     direction = vector(vx, vy, vz)
@@ -22,3 +22,23 @@ def check_position(context, var, t, x, y, z):
     ray = context.variables[var]
     expected = point(x, y, z)
     assert position(ray, t) == expected
+
+
+@when("{new_ray:w} ← transform({ray:w}, {matrix:w})")
+def assign_transform(context, new_ray, ray, matrix):
+    r = context.variables[ray]
+    m = context.variables[matrix]
+    context.variables[new_ray] = transform(r, m)
+
+
+@then("{var:w}.{att:w} = {tuple_type:w}({x:g}, {y:g}, {z:g})")
+def check_attribute_point(context, var, att, tuple_type, x, y, z):
+    if tuple_type == "point":
+        expected = point(x, y, z)
+    elif tuple_type == "vector":
+        expected = vector(x, y, z)
+    else:
+        raise ValueError(f"tuple type '{tuple_type}' not recognized")
+
+    my_variable = context.variables[var]
+    assert getattr(my_variable, att) == expected
