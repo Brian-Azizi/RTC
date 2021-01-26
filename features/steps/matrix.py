@@ -1,5 +1,5 @@
 from behave import given, then, model
-from src.matrix import Matrix, RawMatrix
+from src.matrix import Matrix, RawMatrix, identity
 
 
 def get_raw_matrix_from_behave_table(table: model.Table) -> RawMatrix:
@@ -57,3 +57,17 @@ def invalid_matrix_multiplication(context, var_1, var_2):
         matrix_1 * matrix_2
     except ValueError as e:
         assert "Cannot multiply matrices" in str(e)
+
+
+@then("{var:w} * identity_matrix = {var:w}")
+def identity_post(context, var):
+    matrix = context.variables[var]
+    identity_matrix = identity(matrix.num_rows)
+    assert matrix * identity_matrix == matrix
+
+
+@then("identity_matrix * {var:w} = {var:w}")
+def identity_pre(context, var):
+    matrix = context.variables[var]
+    identity_matrix = identity(matrix.num_rows)
+    assert identity_matrix * matrix == matrix

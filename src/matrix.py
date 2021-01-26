@@ -8,15 +8,11 @@ RawMatrix = List[List[float]]
 
 class Matrix:
     raw_matrix: RawMatrix
-    num_rows: int
-    num_cols: int
 
     def __init__(self, raw_matrix: RawMatrix) -> None:
         self.raw_matrix = raw_matrix
-        self.num_rows = len(raw_matrix)
-        self.num_cols = len(raw_matrix[0])
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         output = f"<Matrix {self.dimensions}>\n"
         for row in self.raw_matrix:
             line = "| "
@@ -83,7 +79,20 @@ class Matrix:
     def dimensions(self) -> TupleType[int, int]:
         return (self.num_rows, self.num_cols)
 
+    @property
+    def num_rows(self) -> int:
+        return len(self.raw_matrix)
+
+    @property
+    def num_cols(self) -> int:
+        return len(self.raw_matrix[0])
+
 
 def zeros(num_rows: int, num_cols: int) -> Matrix:
     raw = [[0.0 for i in range(num_cols)] for j in range(num_rows)]
+    return Matrix(raw)
+
+
+def identity(n: int) -> Matrix:
+    raw = [[1.0 if i == j else 0.0 for i in range(n)] for j in range(n)]
     return Matrix(raw)
