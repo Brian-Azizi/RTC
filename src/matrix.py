@@ -151,3 +151,18 @@ def cofactor(m: Matrix, i: int, j: int) -> float:
 
 def is_invertible(m: Matrix) -> bool:
     return abs(determinant(m)) > EPSILON
+
+
+def inverse(m: Matrix) -> Matrix:
+    det = determinant(m)
+    if abs(det) < EPSILON:
+        raise ValueError("Matrix is not invertible")
+
+    result = zeros(m.num_rows, m.num_cols)
+
+    for i in range(m.num_rows):
+        for j in range(m.num_cols):
+            c = cofactor(m, i, j)
+            result[j, i] = c / det
+
+    return result

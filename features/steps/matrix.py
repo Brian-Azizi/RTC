@@ -9,6 +9,7 @@ from src.matrix import (
     minor,
     cofactor,
     is_invertible,
+    inverse,
 )
 
 
@@ -138,3 +139,23 @@ def check_invertible(context, var):
 def check_not_invertible(context, var):
     matrix = context.variables[var]
     assert is_invertible(matrix) is False
+
+
+@given("{var_b:w} ← inverse({var_a:w})")
+def assign_inverse(context, var_a, var_b):
+    matrix_a = context.variables[var_a]
+    context.variables[var_b] = inverse(matrix_a)
+
+
+@then("{var:w}[{i:d},{j:d}] = {numerator:g}/{denominator:g}")
+def check_cell(context, var, i, j, numerator, denominator):
+    matrix = context.variables[var]
+    assert matrix[i, j] == numerator / denominator
+
+
+@then("{var:w} is the following 4x4 matrix")
+def check_matrix(context, var):
+    matrix = context.variables[var]
+    expected = Matrix(get_raw_matrix_from_behave_table(context.table))
+    print(matrix)
+    assert matrix == expected
