@@ -1,4 +1,5 @@
-from typing import List, Iterable
+from __future__ import annotations
+from typing import List, Iterable, Optional
 
 
 class Object:
@@ -13,9 +14,22 @@ class Intersection:
         self.t = t
         self.the_object = the_object
 
+    def __lt__(self, other: Intersection) -> bool:
+        return self.t < other.t
+
 
 Intersections = List[Intersection]
 
 
 def intersections(*args: Intersection) -> Intersections:
-    return list(args)
+    result = list(args)
+    result.sort()
+    return result
+
+
+def hit(xs: Intersections) -> Optional[Intersection]:
+    for intersection in xs:
+        if intersection.t >= 0:
+            return intersection
+
+    return None
