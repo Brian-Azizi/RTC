@@ -1,9 +1,9 @@
 import math
 from typing import List
 from src.tuple import point, Point, dot
-from src.rays import Ray
+from src.rays import Ray, transform
 from src.intersection import Intersection, intersections, Intersections, Object
-from src.matrix import identity, Matrix
+from src.matrix import identity, Matrix, inverse
 
 
 class Sphere(Object):
@@ -27,10 +27,13 @@ def sphere() -> Sphere:
 
 
 def intersect(s: Sphere, ray: Ray) -> Intersections:
-    sphere_to_ray = ray.origin - s.origin
+    world_to_object_transform = inverse(s.transform)
+    transformed_ray = transform(ray, world_to_object_transform)
 
-    a = dot(ray.direction, ray.direction)
-    b = 2 * dot(ray.direction, sphere_to_ray)
+    sphere_to_ray = transformed_ray.origin - s.origin
+
+    a = dot(transformed_ray.direction, transformed_ray.direction)
+    b = 2 * dot(transformed_ray.direction, sphere_to_ray)
     c = dot(sphere_to_ray, sphere_to_ray) - 1
 
     discriminant = b * b - 4 * a * c
