@@ -93,3 +93,12 @@ Feature: Matrices
     And the following matrix B:
       | -2 | 1 | 1 |
     Then A * B is invalid
+
+  Scenario: A matrix multiplied by a tuple
+    Given the following matrix A:
+      | 1 | 2 | 3 | 4 |
+      | 2 | 4 | 4 | 2 |
+      | 8 | 6 | 4 | 1 |
+      | 0 | 0 | 0 | 1 |
+    And b ← tuple(1, 2, 3, 1)
+    Then A * b = tuple(18, 24, 33, 1)

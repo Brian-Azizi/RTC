@@ -1,6 +1,6 @@
 from __future__ import annotations
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from src.helpers import approximately_equals
 from typing import Union, Literal
 
@@ -53,6 +53,20 @@ class Tuple:
 
     def __truediv__(self, other: float) -> Tuple:
         return self * (1 / other)
+
+    def __iter__(self):
+        return iter(asdict(self).values())
+
+    def __getitem__(self, key):
+        if key == 0:
+            return self.x
+        if key == 1:
+            return self.y
+        if key == 2:
+            return self.z
+        if key == 3:
+            return self.w
+        raise IndexError("Tuple index out of range")
 
     def approximately_equals(self, other: Tuple) -> bool:
         return (

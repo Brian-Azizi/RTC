@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import List, Tuple
+from typing import List, Tuple as TupleType, Union
+from src.tuple import Tuple
 
 
 RawMatrix = List[List[float]]
@@ -39,7 +40,7 @@ class Matrix:
 
         return False
 
-    def __mul__(self, other: Matrix) -> Matrix:
+    def __mul__(self, other: Union[Matrix, Tuple]) -> Union[Matrix, Tuple]:
         if isinstance(other, Matrix):
             if self.num_cols != other.num_rows:
                 raise ValueError(
@@ -57,6 +58,19 @@ class Matrix:
 
             return result
 
+        elif isinstance(other, Tuple):
+            if self.dimensions != (4, 4):
+                raise NotImplementedError(
+                    "Matrix X Tuple is only supported for 4x4 matrices"
+                )
+
+            return Tuple(
+                sum([self.at(0, j) * other[j] for j in range(4)]),
+                sum([self.at(1, j) * other[j] for j in range(4)]),
+                sum([self.at(2, j) * other[j] for j in range(4)]),
+                sum([self.at(3, j) * other[j] for j in range(4)]),
+            )
+
         raise TypeError(f"Multiplication is not supported for {type(other)}")
 
     def at(self, i: int, j: int) -> float:
@@ -66,7 +80,7 @@ class Matrix:
         self.raw_matrix[i][j] = value
 
     @property
-    def dimensions(self) -> Tuple[int, int]:
+    def dimensions(self) -> TupleType[int, int]:
         return (self.num_rows, self.num_cols)
 
 
