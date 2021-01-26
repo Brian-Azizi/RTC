@@ -8,6 +8,7 @@ from src.matrix import (
     submatrix,
     minor,
     cofactor,
+    is_invertible,
 )
 
 
@@ -125,3 +126,15 @@ def check_minor(context, var, i, j, value):
 def check_cofactor(context, var, i, j, value):
     matrix = context.variables[var]
     assert cofactor(matrix, i, j) == value
+
+
+@then("{var:w} is invertible")
+def check_invertible(context, var):
+    matrix = context.variables[var]
+    assert is_invertible(matrix)
+
+
+@then("{var:w} is not invertible")
+def check_not_invertible(context, var):
+    matrix = context.variables[var]
+    assert is_invertible(matrix) is False

@@ -3,8 +3,10 @@ from typing import Union, Any
 Num = Union[int, float]
 
 
+EPSILON = 0.00001
+
+
 def approximately_equals(x: Num, y: Num) -> bool:
-    EPSILON = 0.00001
     return abs(x - y) < EPSILON
 
 

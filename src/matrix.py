@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List, Tuple as TupleType, Union
 from src.tuple import Tuple
-
+from src.helpers import EPSILON
 
 RawMatrix = List[List[float]]
 
@@ -115,10 +115,17 @@ def transpose(m: Matrix) -> Matrix:
 
 
 def determinant(m: Matrix) -> float:
+    if m.num_cols != m.num_rows:
+        raise ValueError("Determinant only supported for square matrices")
+
     if m.dimensions == (2, 2):
         return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0]
 
-    raise NotImplementedError("Determinant is only supported for 2x2 matrices")
+    result = 0.0
+    for i in range(m.num_cols):
+        result += m[0, i] * cofactor(m, 0, i)
+
+    return result
 
 
 def submatrix(m: Matrix, row_to_delete: int, col_to_delete: int) -> Matrix:
@@ -140,3 +147,7 @@ def minor(m: Matrix, i: int, j: int) -> float:
 def cofactor(m: Matrix, i: int, j: int) -> float:
     m_minor = minor(m, i, j)
     return m_minor if i + j % 2 == 0 else -m_minor
+
+
+def is_invertible(m: Matrix) -> bool:
+    return abs(determinant(m)) > EPSILON
