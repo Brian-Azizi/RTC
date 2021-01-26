@@ -1,6 +1,13 @@
 import math
 from behave import given, then
-from src.transformations import translation, scaling, rotation_x, rotation_y, rotation_z
+from src.transformations import (
+    translation,
+    scaling,
+    rotation_x,
+    rotation_y,
+    rotation_z,
+    shearing,
+)
 
 
 @given("{var:w} ← translation({x:g}, {y:g}, {z:g})")
@@ -25,3 +32,8 @@ def assign_rotation(context, var, axis, frac):
         raise ValueError("Invalid rotation axis")
 
     context.variables[var] = rotation(math.pi / frac)
+
+
+@given(u"{var:w} ← shearing({x_y:g}, {x_z:g}, {y_x:g}, {y_z:g}, {z_x:g}, {z_y:g})")
+def assign_shearing(context, var, x_y, x_z, y_x, y_z, z_x, z_y):
+    context.variables[var] = shearing(x_y, x_z, y_x, y_z, z_x, z_y)

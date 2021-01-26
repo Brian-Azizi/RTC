@@ -43,3 +43,16 @@ def rotation_z(angle: float) -> Matrix:
     result[1, 0] = math.sin(angle)
     result[1, 1] = math.cos(angle)
     return result
+
+
+def shearing(
+    x_y: float, x_z: float, y_x: float, y_z: float, z_x: float, z_y: float
+) -> Matrix:
+    result = identity(4)
+    result[0, 1] = x_y
+    result[0, 2] = x_z
+    result[1, 0] = y_x
+    result[1, 2] = y_z
+    result[2, 0] = z_x
+    result[2, 1] = z_y
+    return result
