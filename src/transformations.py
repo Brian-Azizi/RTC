@@ -25,3 +25,21 @@ def rotation_x(angle: float) -> Matrix:
     result[2, 1] = math.sin(angle)
     result[2, 2] = math.cos(angle)
     return result
+
+
+def rotation_y(angle: float) -> Matrix:
+    result = identity(4)
+    result[0, 0] = math.cos(angle)
+    result[0, 2] = math.sin(angle)
+    result[2, 0] = -math.sin(angle)
+    result[2, 2] = math.cos(angle)
+    return result
+
+
+def rotation_z(angle: float) -> Matrix:
+    result = identity(4)
+    result[0, 0] = math.cos(angle)
+    result[0, 1] = -math.sin(angle)
+    result[1, 0] = math.sin(angle)
+    result[1, 1] = math.cos(angle)
+    return result
