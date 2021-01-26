@@ -49,7 +49,11 @@ def assign_color(context, var, x, y, z):
 def check_attribute(context, var, att, expected):
     exp = float(expected) if is_number(expected) else context.variables[expected]
     my_variable = context.variables[var]
-    assert getattr(my_variable, att) == exp
+
+    if att == "count":
+        assert len(my_variable) == exp
+    else:
+        assert getattr(my_variable, att) == exp
 
 
 @then("{var} is a point")
