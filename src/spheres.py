@@ -3,15 +3,21 @@ from typing import List
 from src.tuple import point, Point, dot
 from src.rays import Ray
 from src.intersection import Intersection, intersections, Intersections, Object
+from src.matrix import identity, Matrix
 
 
 class Sphere(Object):
     origin: Point
     radius: float
+    transform: Matrix
 
-    def __init__(self, origin: Point, radius: float):
+    def __init__(self, origin: Point, radius: float, transform: Matrix = identity(4)):
         self.origin = origin
         self.radius = radius
+        self.transform = transform
+
+    def set_transform(self, transform: Matrix) -> None:
+        self.transform = transform
 
 
 def sphere() -> Sphere:

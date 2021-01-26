@@ -11,6 +11,7 @@ from src.tuple import (
     cross,
 )
 from src.color import Color
+from src.matrix import identity, Matrix
 from src.helpers import is_number
 
 
@@ -43,18 +44,6 @@ def assign_vector(context, var, x, y, z):
 @given("{var} ← color({x:g}, {y:g}, {z:g})")
 def assign_color(context, var, x, y, z):
     context.variables[var] = Color(x, y, z)
-
-
-@then("{var:w}.{att:w} = {expected:w}")
-@then("{var:w}.{att:w} = {expected:g}")
-def check_attribute(context, var, att, expected):
-    exp = float(expected) if is_number(expected) else context.variables[expected]
-    my_variable = context.variables[var]
-
-    if att == "count":
-        assert len(my_variable) == exp
-    else:
-        assert getattr(my_variable, att) == exp
 
 
 @then("{var} is a point")
@@ -180,3 +169,20 @@ def check_tuple_type(context, var, tuple_type, x, y, z):
     variable = float(var) if is_number(var) else context.variables[var]
     expected = create_tuple(tuple_type, x, y, z)
     assert expected.approximately_equals(variable)
+
+
+@then("{var:w}.{att:w} = {expected:w}")
+@then("{var:w}.{att:w} = {expected:g}")
+def check_attribute(context, var, att, expected):
+    if expected == "identity_matrix":
+        exp = identity(4)  # type: Union[Matrix, float]
+    elif is_number(expected):
+        exp = float(expected)
+    else:
+        exp = context.variables[expected]
+
+    my_variable = context.variables[var]
+    if att == "count":
+        assert len(my_variable) == exp
+    else:
+        assert getattr(my_variable, att) == exp

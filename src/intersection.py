@@ -1,9 +1,10 @@
 from __future__ import annotations
 from typing import List, Iterable, Optional
+from src.matrix import Matrix
 
 
 class Object:
-    pass
+    transform: Matrix
 
 
 class Intersection:

@@ -18,3 +18,10 @@ def assign_intersect(context, var, sphere_var, ray_var):
 def check_index(context, var, index, value):
     variable = context.variables[var]
     assert variable[index] == value
+
+
+@when(u"set_transform({sphere_object:w}, {transform:w})")
+def set_transform(context, sphere_object, transform):
+    s = context.variables[sphere_object]
+    t = context.variables[transform]
+    s.set_transform(t)
