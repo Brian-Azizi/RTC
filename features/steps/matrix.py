@@ -1,5 +1,13 @@
 from behave import given, then, model
-from src.matrix import Matrix, RawMatrix, identity, transpose, determinant, submatrix
+from src.matrix import (
+    Matrix,
+    RawMatrix,
+    identity,
+    transpose,
+    determinant,
+    submatrix,
+    minor,
+)
 
 
 def get_raw_matrix_from_behave_table(table: model.Table) -> RawMatrix:
@@ -94,7 +102,19 @@ def check_determinant(context, var, value):
 
 
 @then("submatrix({var:w}, {i:d}, {j:d}) is the following {p:d}x{q:d} matrix")
-def step_impl(context, var, i, j, p, q):
+def check_submatrix(context, var, i, j, p, q):
     matrix = context.variables[var]
     expected = Matrix(get_raw_matrix_from_behave_table(context.table))
     assert submatrix(matrix, i, j) == expected
+
+
+@given("{new_var:w} ← submatrix({old_var:w}, {i:d}, {j:d})")
+def assign_submatrix(context, new_var, old_var, i, j):
+    old = context.variables[old_var]
+    context.variables[new_var] = submatrix(old, i, j)
+
+
+@then("minor({var:w}, {i:d}, {j:d}) = {value:g}")
+def check_minor(context, var, i, j, value):
+    matrix = context.variables[var]
+    assert minor(matrix, i, j) == value

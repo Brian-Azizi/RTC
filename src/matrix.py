@@ -130,3 +130,8 @@ def submatrix(m: Matrix, row_to_delete: int, col_to_delete: int) -> Matrix:
             result[i, j] = m[old_i, old_j]
 
     return result
+
+
+def minor(m: Matrix, i: int, j: int) -> float:
+    sub = submatrix(m, i, j)
+    return determinant(sub)
