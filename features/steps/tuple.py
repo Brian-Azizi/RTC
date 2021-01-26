@@ -45,10 +45,11 @@ def assign_color(context, var, x, y, z):
     context.variables[var] = Color(x, y, z)
 
 
-@then("{var:w}.{att:w} = {num:g}")
-def check_tuple_attribute(context, var, att, num):
+@then("{var:w}.{att:w} = {expected}")
+def check_attribute(context, var, att, expected):
+    exp = float(expected) if is_number(expected) else context.variables[expected]
     my_variable = context.variables[var]
-    assert getattr(my_variable, att) == num
+    assert getattr(my_variable, att) == exp
 
 
 @then("{var} is a point")
