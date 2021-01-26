@@ -84,6 +84,14 @@ def identity_pre(context, var):
     assert identity_matrix * matrix == matrix
 
 
+@then("{var_1:w} * {var_2:w} = {var_3:w}")
+def check_multiplication(context, var_1, var_2, var_3):
+    matrix_1 = context.variables[var_1]
+    matrix_2 = context.variables[var_2]
+    matrix_3 = context.variables[var_3]
+    assert matrix_1 * matrix_2 == matrix_3
+
+
 @then("transpose({var:w}) is the following matrix")
 def check_transpose(context, var):
     matrix = context.variables[var]
