@@ -7,6 +7,7 @@ from src.matrix import (
     determinant,
     submatrix,
     minor,
+    cofactor,
 )
 
 
@@ -118,3 +119,9 @@ def assign_submatrix(context, new_var, old_var, i, j):
 def check_minor(context, var, i, j, value):
     matrix = context.variables[var]
     assert minor(matrix, i, j) == value
+
+
+@then("cofactor({var:w}, {i:d}, {j:d}) = {value:g}")
+def check_cofactor(context, var, i, j, value):
+    matrix = context.variables[var]
+    assert cofactor(matrix, i, j) == value

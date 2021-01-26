@@ -135,3 +135,8 @@ def submatrix(m: Matrix, row_to_delete: int, col_to_delete: int) -> Matrix:
 def minor(m: Matrix, i: int, j: int) -> float:
     sub = submatrix(m, i, j)
     return determinant(sub)
+
+
+def cofactor(m: Matrix, i: int, j: int) -> float:
+    m_minor = minor(m, i, j)
+    return m_minor if i + j % 2 == 0 else -m_minor
