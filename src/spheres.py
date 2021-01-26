@@ -1,10 +1,11 @@
 import math
+from typing import List
 from src.tuple import point, Point, dot
 from src.rays import Ray
-from typing import List
+from src.intersection import Intersection, intersections, Intersections, Object
 
 
-class Sphere:
+class Sphere(Object):
     origin: Point
     radius: float
 
@@ -19,7 +20,7 @@ def sphere() -> Sphere:
     return Sphere(origin, radius)
 
 
-def intersect(s: Sphere, ray: Ray) -> List[float]:
+def intersect(s: Sphere, ray: Ray) -> Intersections:
     sphere_to_ray = ray.origin - s.origin
 
     a = dot(ray.direction, ray.direction)
@@ -30,7 +31,7 @@ def intersect(s: Sphere, ray: Ray) -> List[float]:
 
     if discriminant < 0:
         return []
-    return [
-        (-b - math.sqrt(discriminant)) / (2 * a),
-        (-b + math.sqrt(discriminant)) / (2 * a),
-    ]
+    return intersections(
+        Intersection((-b - math.sqrt(discriminant)) / (2 * a), s),
+        Intersection((-b + math.sqrt(discriminant)) / (2 * a), s),
+    )

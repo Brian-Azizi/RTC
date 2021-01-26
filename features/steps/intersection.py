@@ -1,5 +1,6 @@
 from behave import when, given, then
 from src.intersection import Intersection, intersections
+from src.helpers import is_number
 
 
 @given(u"{var:w} ← intersection({t:g}, {obj:w})")
@@ -16,7 +17,8 @@ def assign_intersections(context, var, var_list):
     context.variables[var] = intersections(*variables)
 
 
-@then(u"{var:w}[{index:d}].{attribute:w} = {value:g}")
-def check_list_member_attribute(context, var, index, attribute, value):
+@then(u"{var:w}[{index:d}].{attribute:w} = {expected}")
+def check_list_member_attribute(context, var, index, attribute, expected):
+    exp = float(expected) if is_number(expected) else context.variables[expected]
     array = context.variables[var]
-    assert getattr(array[index], attribute) == value
+    assert getattr(array[index], attribute) == exp

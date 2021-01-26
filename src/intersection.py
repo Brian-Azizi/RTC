@@ -1,15 +1,21 @@
 from typing import List, Iterable
-from src.spheres import Sphere
+
+
+class Object:
+    pass
 
 
 class Intersection:
     t: float
-    the_object: Sphere
+    the_object: Object
 
-    def __init__(self, t: float, the_object: Sphere):
+    def __init__(self, t: float, the_object: Object):
         self.t = t
         self.the_object = the_object
 
 
-def intersections(*args: Intersection) -> List[Intersection]:
+Intersections = List[Intersection]
+
+
+def intersections(*args: Intersection) -> Intersections:
     return list(args)
