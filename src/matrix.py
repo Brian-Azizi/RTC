@@ -30,7 +30,7 @@ class Matrix:
 
             for i in range(self.num_rows):
                 for j in range(self.num_cols):
-                    if self.at(i, j) != other.at(i, j):
+                    if self[i, j] != other[i, j]:
                         return False
             return True
 
@@ -49,8 +49,8 @@ class Matrix:
                 for j in range(other.num_cols):
                     value = 0.0
                     for k in range(self.num_cols):
-                        value += self.at(i, k) * other.at(k, j)
-                    result.set(i, j, value)
+                        value += self[i, k] * other[k, j]
+                    result[i, j] = value
 
             return result
 
@@ -61,19 +61,25 @@ class Matrix:
                 )
 
             return Tuple(
-                sum([self.at(0, j) * other[j] for j in range(4)]),
-                sum([self.at(1, j) * other[j] for j in range(4)]),
-                sum([self.at(2, j) * other[j] for j in range(4)]),
-                sum([self.at(3, j) * other[j] for j in range(4)]),
+                sum([self[0, j] * other[j] for j in range(4)]),
+                sum([self[1, j] * other[j] for j in range(4)]),
+                sum([self[2, j] * other[j] for j in range(4)]),
+                sum([self[3, j] * other[j] for j in range(4)]),
             )
 
         raise TypeError(f"Multiplication is not supported for {type(other)}")
 
-    def at(self, i: int, j: int) -> float:
-        return self.raw_matrix[i][j]
+    def __getitem__(self, key: TupleType[int, int]) -> float:
+        if isinstance(key, tuple):
+            return self.raw_matrix[key[0]][key[1]]
 
-    def set(self, i: int, j: int, value: float) -> None:
-        self.raw_matrix[i][j] = value
+        raise ValueError("Matrix is only subscriptable by a tuple key")
+
+    def __setitem__(self, key: TupleType[int, int], newvalue: float) -> None:
+        if isinstance(key, tuple):
+            self.raw_matrix[key[0]][key[1]] = newvalue
+        else:
+            raise ValueError("Matrix is only subscriptable by a tuple key")
 
     @property
     def dimensions(self) -> TupleType[int, int]:
@@ -103,6 +109,13 @@ def transpose(m: Matrix) -> Matrix:
 
     for i in range(m.num_rows):
         for j in range(m.num_cols):
-            result.set(j, i, m.at(i, j))
+            result[j, i] = m[i, j]
 
     return result
+
+
+def determinant(m: Matrix) -> float:
+    if m.dimensions == (2, 2):
+        return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0]
+
+    raise NotImplementedError("Determinant is only supported for 2x2 matrices")

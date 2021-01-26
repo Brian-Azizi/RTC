@@ -1,5 +1,5 @@
 from behave import given, then, model
-from src.matrix import Matrix, RawMatrix, identity, transpose
+from src.matrix import Matrix, RawMatrix, identity, transpose, determinant
 
 
 def get_raw_matrix_from_behave_table(table: model.Table) -> RawMatrix:
@@ -24,7 +24,7 @@ def assign_matrix_2(context, var):
 @then("{var}[{i:d},{j:d}] = {value:g}")
 def check_matrix_entry(context, var, i, j, value):
     matrix = context.variables[var]
-    assert matrix.at(i, j) == value
+    assert matrix[i, j] == value
 
 
 @then("{var_1:w} = {var_2:w}")
@@ -85,3 +85,9 @@ def assign_identity_transpose(context, var):
     identity_matrix = identity(4)
     context.variables[var] = transpose(identity_matrix)
     context.variables["identity_matrix"] = identity_matrix
+
+
+@then("determinant({var:w}) = {value:g}")
+def check_determinant(context, var, value):
+    matrix = context.variables[var]
+    assert determinant(matrix) == value
