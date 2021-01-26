@@ -1,5 +1,5 @@
 from behave import given, then, model
-from src.matrix import Matrix, RawMatrix, identity, transpose, determinant
+from src.matrix import Matrix, RawMatrix, identity, transpose, determinant, submatrix
 
 
 def get_raw_matrix_from_behave_table(table: model.Table) -> RawMatrix:
@@ -91,3 +91,10 @@ def assign_identity_transpose(context, var):
 def check_determinant(context, var, value):
     matrix = context.variables[var]
     assert determinant(matrix) == value
+
+
+@then("submatrix({var:w}, {i:d}, {j:d}) is the following {p:d}x{q:d} matrix")
+def step_impl(context, var, i, j, p, q):
+    matrix = context.variables[var]
+    expected = Matrix(get_raw_matrix_from_behave_table(context.table))
+    assert submatrix(matrix, i, j) == expected

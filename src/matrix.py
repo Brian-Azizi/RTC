@@ -119,3 +119,14 @@ def determinant(m: Matrix) -> float:
         return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0]
 
     raise NotImplementedError("Determinant is only supported for 2x2 matrices")
+
+
+def submatrix(m: Matrix, row_to_delete: int, col_to_delete: int) -> Matrix:
+    result = zeros(m.num_rows - 1, m.num_cols - 1)
+    for i in range(result.num_rows):
+        old_i = i + 1 if i >= row_to_delete else i
+        for j in range(result.num_cols):
+            old_j = j + 1 if j >= col_to_delete else j
+            result[i, j] = m[old_i, old_j]
+
+    return result
