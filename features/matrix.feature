@@ -57,3 +57,39 @@ Feature: Matrices
       | 8 | 7 | 6 | 5 |
       | 4 | 3 | 2 | 1 |
     Then A != B
+
+  Scenario: Multiplying two matrices
+    Given the following matrix A:
+      | 1 | 2 | 3 | 4 |
+      | 5 | 6 | 7 | 8 |
+      | 9 | 8 | 7 | 6 |
+      | 5 | 4 | 3 | 2 |
+    And the following matrix B:
+      | -2 | 1 | 2 | 3  |
+      | 3  | 2 | 1 | -1 |
+      | 4  | 3 | 6 | 5  |
+      | 1  | 2 | 7 | 8  |
+    Then A * B is the following 4x4 matrix:
+      | 20 | 22 | 50  | 48  |
+      | 44 | 54 | 114 | 108 |
+      | 40 | 58 | 110 | 102 |
+      | 16 | 26 | 46  | 42  |
+
+  Scenario: Multiplying two matrices of different size
+    Given the following matrix A:
+      | 1 | 2 |
+      | 5 | 6 |
+    And the following matrix B:
+      | -2 | 1 | 1 |
+      | 3  | 2 | 2 |
+    Then A * B is the following 4x4 matrix:
+      | 4 | 5  | 5  |
+      | 8 | 17 | 17 |
+
+  Scenario: Multiplying two matrices of incompatible sizes
+    Given the following matrix A:
+      | 1 | 2 |
+      | 5 | 6 |
+    And the following matrix B:
+      | -2 | 1 | 1 |
+    Then A * B is invalid
