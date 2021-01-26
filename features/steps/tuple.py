@@ -138,17 +138,6 @@ def check_approximate_normalize(context, var, x, y, z):
     assert normalize(my_variable).approximately_equals(vector(x, y, z))
 
 
-@then("{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
-def check_tuple(context, var_expression, x, y, z, w):
-    var_names = [v.strip() for v in var_expression.split("+")]
-    my_variables = [
-        -context.variables[var[1:]] if var[0] == "-" else context.variables[var]
-        for var in var_names
-    ]
-    expected = Tuple(x, y, z, w)
-    assert sum(my_variables) == expected
-
-
 @when("{var} ← normalize({other_var})")
 def assign_normalize(context, var, other_var):
     other = context.variables[other_var]
@@ -167,3 +156,21 @@ def check_cross(context, var_1, var_2, x, y, z):
     v1 = context.variables[var_1]
     v2 = context.variables[var_2]
     assert cross(v1, v2) == vector(x, y, z)
+
+
+@then("{var_expression} = tuple({x:g}, {y:g}, {z:g}, {w:g})")
+def check_tuple(context, var_expression, x, y, z, w):
+    var_names = [v.strip() for v in var_expression.split("+")]
+    my_variables = [
+        -context.variables[var[1:]] if var[0] == "-" else context.variables[var]
+        for var in var_names
+    ]
+    expected = Tuple(x, y, z, w)
+    assert sum(my_variables) == expected
+
+
+@then("{var} = {tuple_type}({x:g}, {y:g}, {z:g})")
+def check_tuple_type(context, var, tuple_type, x, y, z):
+    variable = float(var) if is_number(var) else context.variables[var]
+    expected = create_tuple(tuple_type, x, y, z)
+    assert expected.approximately_equals(variable)

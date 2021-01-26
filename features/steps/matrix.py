@@ -1,4 +1,4 @@
-from behave import given, then, model
+from behave import given, then, model, when
 from src.matrix import (
     Matrix,
     RawMatrix,
@@ -175,7 +175,8 @@ def check_inverse_matrix(context, var):
     assert inverse(matrix).approximately_equals(expected)
 
 
-@given("{var_c:w} ← {var_a:w} * {var_b}")
+@given("{var_c:w} ← {var_a:w} * {var_b:w}")
+@when("{var_c:w} ← {var_a:w} * {var_b:w}")
 def assign_multiplication(context, var_a, var_b, var_c):
     matrix_a = context.variables[var_a]
     matrix_b = context.variables[var_b]
