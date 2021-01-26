@@ -8,17 +8,17 @@ from src.ppm import PPM
 
 
 def run() -> None:
-    STEPS = 12
-    SIZE = 121
+    STEPS = 180
+    SIZE = 600
     MIDDLE = SIZE // 2
 
     canvas = Canvas(SIZE, SIZE)
     color = Color(1, 0, 0)
-    color_increment = Color(0, 1.0 / STEPS, -1.0 / STEPS)
+    color_increment = Color(0, 0, 1.0 / STEPS)
 
     position = point(0, 1, 0)
 
-    rotate = rotation_z(-2 * math.pi / 12)
+    rotate = rotation_z(-2 * math.pi / STEPS)
     translate = translation(MIDDLE, MIDDLE, 0)
     scale = scaling(SIZE // 3, SIZE // 3, 1)
 
