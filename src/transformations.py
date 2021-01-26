@@ -1,3 +1,4 @@
+import math
 from src.matrix import Matrix, identity
 
 
@@ -14,4 +15,13 @@ def scaling(x: float, y: float, z: float) -> Matrix:
     result[0, 0] = x
     result[1, 1] = y
     result[2, 2] = z
+    return result
+
+
+def rotation_x(angle: float) -> Matrix:
+    result = identity(4)
+    result[1, 1] = math.cos(angle)
+    result[1, 2] = -math.sin(angle)
+    result[2, 1] = math.sin(angle)
+    result[2, 2] = math.cos(angle)
     return result
