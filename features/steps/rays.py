@@ -1,5 +1,6 @@
 from behave import when, then, given
 from src.rays import Ray, position, transform
+from src.color import Color
 from src.tuple import vector, point
 
 
@@ -37,6 +38,8 @@ def check_attribute_point(context, var, att, tuple_type, x, y, z):
         expected = point(x, y, z)
     elif tuple_type == "vector":
         expected = vector(x, y, z)
+    elif tuple_type == "color":
+        expected = Color(x, y, z)  # type: ignore
     else:
         raise ValueError(f"tuple type '{tuple_type}' not recognized")
 
