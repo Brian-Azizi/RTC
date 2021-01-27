@@ -169,7 +169,7 @@ def check_tuple(context, var_expression, x, y, z, w):
 def check_tuple_type(context, var, tuple_type, x, y, z):
     variable = float(var) if is_number(var) else context.variables[var]
     expected = create_tuple(tuple_type, x, y, z)
-    assert expected.approximately_equals(variable)
+    assert expected.approximately_equals(variable), f"{expected} ~= {variable}"
 
 
 @then("{var:w}.{att:w} = {expected:w}")

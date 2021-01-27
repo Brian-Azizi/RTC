@@ -1,7 +1,18 @@
-from behave import given
-from src.materials import Material
+from behave import given, when
+from src.materials import Material, lighting
 
 
 @given(u"{var:w} ← material()")
 def assign_material(context, var):
     context.variables[var] = Material()
+
+
+@when(u"{res:w} ← lighting({mat:w}, {light:w}, {position:w}, {eye_v:w}, {normal_v:w})")
+def assign_lighting(context, res, mat, light, position, eye_v, normal_v):
+    material = context.variables[mat]
+    l = context.variables[light]
+    p = context.variables[position]
+    eye = context.variables[eye_v]
+    normal = context.variables[normal_v]
+
+    context.variables[res] = lighting(material, l, p, eye, normal)
