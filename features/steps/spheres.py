@@ -4,6 +4,7 @@ from src.spheres import Sphere, intersect, normal_at
 from src.transformations import scaling, translation, rotation_z
 from src.tuple import normalize, point
 from src.matrix import Matrix
+from src.helpers import is_number
 
 
 @given("{var:w} ← sphere()")
@@ -73,3 +74,17 @@ def check_normal(context, var_1, var_2):
     variable_1 = context.variables[var_1]
     variable_2 = context.variables[var_2]
     assert variable_1 == normalize(variable_2)
+
+
+@when("{new_var:w} ← {var:w}.{attr:w}")
+def assign_from_attribute(context, new_var, var, attr):
+    variable = context.variables[var]
+    context.variables[new_var] = getattr(variable, attr)
+
+
+@given("{var:w}.{attr:w} ← {value:g}")
+@when("{var:w}.{attr:w} ← {value:w}")
+def assign_attribute(context, var, attr, value):
+    val = float(value) if is_number(value) else context.variables[value]
+    variable = context.variables[var]
+    setattr(variable, attr, val)

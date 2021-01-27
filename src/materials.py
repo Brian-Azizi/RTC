@@ -2,21 +2,16 @@ import math
 from src.color import Color
 from src.tuple import Point, Vector, normalize, dot, reflect
 from src.lights import PointLight
+from dataclasses import dataclass
 
 
+@dataclass
 class Material:
-    color: Color
-    ambient: float
-    diffuse: float
-    specular: float
-    shininess: float
-
-    def __init__(self) -> None:
-        self.color = Color(1, 1, 1)
-        self.ambient = 0.1
-        self.diffuse = 0.9
-        self.specular = 0.9
-        self.shininess = 200.0
+    color: Color = Color(1, 1, 1)
+    ambient: float = 0.1
+    diffuse: float = 0.9
+    specular: float = 0.9
+    shininess: float = 200.0
 
 
 def lighting(

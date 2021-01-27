@@ -1,10 +1,12 @@
 from __future__ import annotations
 from typing import List, Iterable, Optional
 from src.matrix import Matrix
+from src.materials import Material
 
 
 class Object:
     transform: Matrix
+    material: Material
 
 
 class Intersection:

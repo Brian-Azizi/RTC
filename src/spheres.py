@@ -4,6 +4,7 @@ from src.tuple import point, Point, dot, normalize, Vector, vector
 from src.rays import Ray, transform
 from src.intersection import Intersection, intersections, Intersections, Object
 from src.matrix import identity, Matrix, inverse, transpose
+from src.materials import Material
 
 
 class Sphere(Object):
@@ -12,11 +13,13 @@ class Sphere(Object):
     origin: Point
     radius: float
     transform: Matrix
+    material: Material
 
     def __init__(self) -> None:
         self.origin = point(0, 0, 0)
         self.radius = 1.0
         self.transform = identity(4)
+        self.material = Material()
 
     def set_transform(self, transform: Matrix) -> None:
         self.transform = transform
