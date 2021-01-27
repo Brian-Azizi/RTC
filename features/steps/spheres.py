@@ -1,6 +1,6 @@
 from behave import given, then, when
 from typing import Callable, List
-from src.spheres import sphere, intersect, normal_at
+from src.spheres import Sphere, intersect, normal_at
 from src.transformations import scaling, translation, rotation_z
 from src.tuple import normalize, point
 from src.matrix import Matrix
@@ -8,7 +8,7 @@ from src.matrix import Matrix
 
 @given("{var:w} ← sphere()")
 def assign_sphere(context, var):
-    context.variables[var] = sphere()
+    context.variables[var] = Sphere()
 
 
 @when("{var:w} ← intersect({sphere_var:w}, {ray_var:w})")

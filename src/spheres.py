@@ -7,23 +7,19 @@ from src.matrix import identity, Matrix, inverse, transpose
 
 
 class Sphere(Object):
+    """Unit Sphere"""
+
     origin: Point
     radius: float
     transform: Matrix
 
-    def __init__(self, origin: Point, radius: float, transform: Matrix = identity(4)):
-        self.origin = origin
-        self.radius = radius
-        self.transform = transform
+    def __init__(self) -> None:
+        self.origin = point(0, 0, 0)
+        self.radius = 1.0
+        self.transform = identity(4)
 
     def set_transform(self, transform: Matrix) -> None:
         self.transform = transform
-
-
-def sphere() -> Sphere:
-    origin = point(0, 0, 0)
-    radius = 1
-    return Sphere(origin, radius)
 
 
 def intersect(s: Sphere, ray: Ray) -> Intersections:

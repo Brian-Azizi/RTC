@@ -3,7 +3,7 @@ from src.canvas import Canvas
 from src.rays import Ray
 from src.color import Color
 from src.intersection import hit
-from src.spheres import sphere, intersect
+from src.spheres import Sphere, intersect
 from src.tuple import point, Point, normalize
 from src.ppm import PPM
 from src.transformations import translation, shearing, scaling, rotation_z
@@ -33,7 +33,7 @@ def run() -> None:
     origin = point(0, 0, 5)
     shadow = Color(1, 0, 0)
 
-    the_object = sphere()
+    the_object = Sphere()
     the_object.set_transform(shearing(1, 0, 0, 0, 0, 0) * scaling(0.5, 1, 1))
     canvas = Canvas(CANVAS_SIZE, CANVAS_SIZE)
 
