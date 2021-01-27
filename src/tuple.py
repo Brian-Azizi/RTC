@@ -112,3 +112,7 @@ def cross(a: Vector, b: Vector) -> Vector:
         a.z * b.x - a.x * b.z,
         a.x * b.y - a.y * b.x,
     )
+
+
+def reflect(vec: Vector, normal: Vector) -> Vector:
+    return vec - normal * 2 * dot(vec, normal)

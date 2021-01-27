@@ -9,6 +9,7 @@ from src.tuple import (
     normalize,
     dot,
     cross,
+    reflect,
 )
 from src.color import Color
 from src.matrix import identity, Matrix
@@ -186,3 +187,10 @@ def check_attribute(context, var, att, expected):
         assert len(my_variable) == exp
     else:
         assert getattr(my_variable, att) == exp
+
+
+@when("{result:w} ← reflect({vec:w}, {nor:w})")
+def assign_reflection(context, result, vec, nor):
+    v = context.variables[vec]
+    normal = context.variables[nor]
+    context.variables[result] = reflect(v, normal)
