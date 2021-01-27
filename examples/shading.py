@@ -1,22 +1,24 @@
 import math
 from src.canvas import Canvas
-from src.rays import Ray
+from src.rays import Ray, position
 from src.color import Color
-from src.intersection import hit
-from src.spheres import Sphere, intersect
+from src.intersection import hit as get_hit
+from src.spheres import Sphere, normal_at, intersect
 from src.tuple import point, Point, normalize
 from src.ppm import PPM
 from src.transformations import translation, shearing, scaling, rotation_z
+from src.materials import Material, lighting
+from src.lights import PointLight
 
 
 # Canvas size
-CANVAS_SIZE = 100
+CANVAS_SIZE = 400
 
 # Wall is normal to z-axis
 WALL_Z = -10
 
 # Wall Size
-WALL_SIZE = 10
+WALL_SIZE = 7
 
 
 def canvas_to_world(canvas_coordinate: Point) -> Point:
@@ -34,17 +36,26 @@ def run() -> None:
     shadow = Color(1, 0, 0)
 
     the_object = Sphere()
-    the_object.set_transform(shearing(1, 0, 0, 0, 0, 0) * scaling(0.5, 1, 1))
+    # the_object.set_transform(scaling(0.5, 1, 1))
+    the_object.material.color = Color(0.9, 0.2, 1)
+
+    light = PointLight(point(-10, 10, 10), Color(1, 1, 1))
     canvas = Canvas(CANVAS_SIZE, CANVAS_SIZE)
 
     for i in range(CANVAS_SIZE):
         for j in range(CANVAS_SIZE):
             target = canvas_to_world(point(i, j, 0))
             ray = Ray(origin, normalize(target - origin))
-            if hit(intersect(the_object, ray)) is not None:
-                canvas.write_pixel(i, j, shadow)
+            hit = get_hit(intersect(the_object, ray))
+            if hit is not None:
+                hit_point = position(ray, hit.t)
+                normal = normal_at(hit.the_object, hit_point)
+                pixel_color = lighting(
+                    hit.the_object.material, light, hit_point, -ray.direction, normal
+                )
+                canvas.write_pixel(i, j, pixel_color)
 
-    PPM(canvas).save_to_file("silhouette.ppm")
+    PPM(canvas).save_to_file("sphere.ppm")
 
 
 if __name__ == "__main__":
