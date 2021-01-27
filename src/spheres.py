@@ -45,10 +45,14 @@ def intersect(s: Sphere, ray: Ray) -> Intersections:
     )
 
 
-def normal_at(s: Sphere, world_point: Point) -> Vector:
-    transformer = inverse(s.transform)
-    object_point = transformer * world_point
-    object_normal = object_point - point(0, 0, 0)
-    world_normal = transpose(transformer) * object_normal
-    world_normal = vector(world_normal.x, world_normal.y, world_normal.z)  # set w to 0
-    return normalize(world_normal)
+def normal_at(s: Object, world_point: Point) -> Vector:
+    if isinstance(s, Sphere):
+        transformer = inverse(s.transform)
+        object_point = transformer * world_point
+        object_normal = object_point - point(0, 0, 0)
+        world_normal = transpose(transformer) * object_normal
+        world_normal = vector(
+            world_normal.x, world_normal.y, world_normal.z
+        )  # set w to 0
+        return normalize(world_normal)
+    raise ValueError(f"Normal calculation not supported for objects of type {type(s)}")
