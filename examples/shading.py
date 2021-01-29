@@ -2,7 +2,7 @@ import math
 from src.canvas import Canvas
 from src.rays import Ray, position
 from src.color import Color
-from src.intersection import hit as get_hit
+from src.intersection import find_hit
 from src.spheres import Sphere, normal_at, intersect
 from src.tuple import point, Point, normalize
 from src.ppm import PPM
@@ -46,7 +46,7 @@ def run() -> None:
         for j in range(CANVAS_SIZE):
             target = canvas_to_world(point(i, j, 0))
             ray = Ray(origin, normalize(target - origin))
-            hit = get_hit(intersect(the_object, ray))
+            hit = find_hit(intersect(the_object, ray))
             if hit is not None:
                 hit_point = position(ray, hit.t)
                 normal = normal_at(hit.the_object, hit_point)

@@ -33,7 +33,7 @@ def intersections(*args: Intersection) -> Intersections:
     return result
 
 
-def hit(xs: Intersections) -> Optional[Intersection]:
+def find_hit(xs: Intersections) -> Optional[Intersection]:
     for intersection in xs:
         if intersection.t >= 0:
             return intersection

@@ -1,12 +1,18 @@
 from typing import List, Optional
-from src.intersection import Object, Intersections, intersections
+from src.intersection import (
+    Object,
+    Intersections,
+    intersections,
+    PreparedComputation,
+    find_hit,
+)
 from src.rays import Ray
 from src.lights import PointLight
 from src.spheres import Sphere, intersect
 from src.transformations import scaling
 from src.tuple import point
 from src.color import Color
-from src.materials import Material
+from src.materials import Material, lighting
 
 
 class World:
@@ -42,3 +48,26 @@ def intersect_world(world: World, ray: Ray) -> Intersections:
         xs.extend(intersect(s, ray))
 
     return intersections(*xs)
+
+
+def shade_hit(world: World, comps: PreparedComputation) -> Color:
+    if world.light is None:
+        raise ValueError("No light source present")
+    else:
+        return lighting(
+            comps.the_object.material,
+            world.light,
+            comps.point,
+            comps.eye_vector,
+            comps.normal_vector,
+        )
+
+
+def color_at(world: World, ray: Ray) -> Color:
+    xs = intersect_world(world, ray)
+    hit = find_hit(xs)
+    if hit is None:
+        return Color(0, 0, 0)
+
+    comps = PreparedComputation(hit, ray)
+    return shade_hit(world, comps)

@@ -1,5 +1,5 @@
 from behave import when, given, then
-from src.intersection import Intersection, intersections, hit, PreparedComputation
+from src.intersection import Intersection, intersections, find_hit, PreparedComputation
 from src.helpers import is_number
 
 
@@ -28,7 +28,7 @@ def check_list_member_attribute(context, var, index, attribute, expected):
 @when(u"{var_1:w} ← hit({var_2:w})")
 def assign_hit(context, var_1, var_2):
     inters = context.variables[var_2]
-    context.variables[var_1] = hit(inters)
+    context.variables[var_1] = find_hit(inters)
 
 
 @then(u"{var:w} is nothing")
