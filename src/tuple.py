@@ -1,7 +1,7 @@
 from __future__ import annotations
 import math
 from dataclasses import dataclass, asdict
-from src.helpers import approximately_equals
+from src.helpers import approximately_equals, equals
 from typing import Union, Literal, Iterator
 
 
@@ -11,6 +11,17 @@ class Tuple:
     y: float
     z: float
     w: float
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Tuple):
+            return False
+        else:
+            return (
+                equals(self.x, other.x)
+                and equals(self.y, other.y)
+                and equals(self.z, other.z)
+                and equals(self.w, other.w)
+            )
 
     def __add__(self, other: Tuple) -> Tuple:
         return Tuple(
@@ -24,6 +35,7 @@ class Tuple:
         if other == 0:
             return self
         else:
+            assert isinstance(other, Tuple)
             return self.__add__(other)
 
     def __neg__(self) -> Tuple:

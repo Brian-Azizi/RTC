@@ -22,6 +22,7 @@ def assign_scaling(context, var, x, y, z):
 
 
 @given(u"{var:w} ← rotation_{axis:w}(π / {frac:d})")
+@when(u"{var:w} ← rotation_{axis:w}(π / {frac:d})")
 def assign_rotation(context, var, axis, frac):
     if axis == "x":
         rotation = rotation_x

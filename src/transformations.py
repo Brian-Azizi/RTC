@@ -61,11 +61,11 @@ def shearing(
 
 def view_transform(from_position: Point, to: Point, up: Vector) -> Matrix:
     forward = normalize(to - from_position)
-    right = cross(forward, normalize(up))
-    true_up = cross(right, forward)
+    left = cross(forward, normalize(up))
+    true_up = cross(left, forward)
     orientation = Matrix(
         [
-            [right.x, right.y, right.z, 0],
+            [left.x, left.y, left.z, 0],
             [true_up.x, true_up.y, true_up.z, 0],
             [-forward.x, -forward.y, -forward.z, 0],
             [0, 0, 0, 1],

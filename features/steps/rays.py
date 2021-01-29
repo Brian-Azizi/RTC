@@ -44,4 +44,6 @@ def check_attribute_point(context, var, att, tuple_type, x, y, z):
         raise ValueError(f"tuple type '{tuple_type}' not recognized")
 
     my_variable = context.variables[var]
-    assert getattr(my_variable, att) == expected
+    assert (
+        getattr(my_variable, att) == expected
+    ), f"{getattr(my_variable, att)} == {expected}"

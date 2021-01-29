@@ -18,3 +18,9 @@ def assign_camera_1(context, var, hsize_var, vsize_var, field_of_view):
 @given(u"{var:w} ← camera({hsize:g}, {vsize:g}, {field_of_view:g})")
 def assign_camera_2(context, var, hsize, vsize, field_of_view):
     context.variables[var] = Camera(hsize, vsize, field_of_view)
+
+
+@when(u"{var:w} ← ray_for_pixel({cam_var:w}, {x:g}, {y:g})")
+def assign_ray_for_pixel(context, var, cam_var, x, y):
+    camera = context.variables[cam_var]
+    context.variables[var] = camera.ray_for_pixel(x, y)
