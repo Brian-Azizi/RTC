@@ -82,8 +82,8 @@ def assign_from_attribute(context, new_var, var, attr):
     context.variables[new_var] = getattr(variable, attr)
 
 
-@given("{var:w}.{attr:w} ← {value:g}")
-@when("{var:w}.{attr:w} ← {value:w}")
+@given("{var:w}.{attr:w} ← {value}")
+@when("{var:w}.{attr:w} ← {value}")
 def assign_attribute(context, var, attr, value):
     val = float(value) if is_number(value) else context.variables[value]
     variable = context.variables[var]

@@ -1,7 +1,9 @@
 from src.tuple import Point
 from src.color import Color
+from dataclasses import dataclass
 
 
+@dataclass
 class PointLight:
     position: Point
     intensity: Color

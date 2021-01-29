@@ -186,7 +186,7 @@ def check_attribute(context, var, att, expected):
     if att == "count":
         assert len(my_variable) == exp
     else:
-        assert getattr(my_variable, att) == exp
+        assert getattr(my_variable, att) == exp, f"{getattr(my_variable, att)} == {exp}"
 
 
 @when("{result:w} ← reflect({vec:w}, {nor:w})")
