@@ -13,7 +13,7 @@ from src.tuple import (
 )
 from src.color import Color
 from src.matrix import identity, Matrix
-from src.helpers import is_number
+from src.helpers import is_number, equals
 from src.transformations import scaling, translation
 
 
@@ -196,6 +196,8 @@ def check_attribute(context, var, att, expected):
     my_variable = context.variables[var]
     if att == "count":
         assert len(my_variable) == exp
+    elif isinstance(exp, float) or isinstance(exp, int):
+        assert equals(exp, getattr(my_variable, att))
     else:
         assert getattr(my_variable, att) == exp, f"{getattr(my_variable, att)} == {exp}"
 
