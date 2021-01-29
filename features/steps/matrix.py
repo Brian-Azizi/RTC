@@ -41,7 +41,7 @@ def check_matrix_entry(context, var, i, j, value):
 @then("{var_1:w} = {var_2:w}")
 def check_equality(context, var_1, var_2):
     matrix_1 = context.variables[var_1]
-    matrix_2 = context.variables[var_2]
+    matrix_2 = identity(4) if var_2 == "identity_matrix" else context.variables[var_2]
     assert matrix_1 == matrix_2
 
 

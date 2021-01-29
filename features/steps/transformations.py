@@ -7,6 +7,7 @@ from src.transformations import (
     rotation_y,
     rotation_z,
     shearing,
+    view_transform,
 )
 
 
@@ -45,3 +46,11 @@ def chain_multiplication(context, var, var_c, var_b, var_a):
     B = context.variables[var_b]
     A = context.variables[var_a]
     context.variables[var] = C * B * A
+
+
+@when(u"{var:w} ← view_transform({from_var:w}, {to_var:w}, {up_var:w})")
+def assign_view_transform(context, var, from_var, to_var, up_var):
+    from_position = context.variables[from_var]
+    to = context.variables[to_var]
+    up = context.variables[up_var]
+    context.variables[var] = view_transform(from_position, to, up)

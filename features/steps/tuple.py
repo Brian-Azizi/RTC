@@ -14,17 +14,24 @@ from src.tuple import (
 from src.color import Color
 from src.matrix import identity, Matrix
 from src.helpers import is_number
+from src.transformations import scaling, translation
 
 
-def create_tuple(tuple_type: str, x: float, y: float, z: float) -> Union[Tuple, Color]:
-    if tuple_type == "vector":
+def create_structure(
+    structure_type: str, x: float, y: float, z: float
+) -> Union[Tuple, Color, Matrix]:
+    if structure_type == "vector":
         return vector(x, y, z)
-    elif tuple_type == "point":
+    elif structure_type == "point":
         return point(x, y, z)
-    elif tuple_type == "color":
+    elif structure_type == "color":
         return Color(x, y, z)
+    elif structure_type == "scaling":
+        return scaling(x, y, z)
+    elif structure_type == "translation":
+        return translation(x, y, z)
     else:
-        raise NotImplementedError(f"tuple type '{tuple_type}' not recognized")
+        raise NotImplementedError(f"structure type '{structure_type}' not recognized")
 
 
 @given("{var} ← tuple({x:g}, {y:g}, {z:g}, {w:g})")
@@ -90,7 +97,7 @@ def check_tuple_division(context, var, scalar, x, y, z, w):
 def check_difference(context, var_1, var_2, tuple_type, x, y, z):
     my_variable_1 = context.variables[var_1]
     my_variable_2 = context.variables[var_2]
-    expected = create_tuple(tuple_type, x, y, z)
+    expected = create_structure(tuple_type, x, y, z)
     assert expected.approximately_equals(my_variable_1 - my_variable_2)
 
 
@@ -98,7 +105,7 @@ def check_difference(context, var_1, var_2, tuple_type, x, y, z):
 def check_sum(context, var_1, var_2, tuple_type, x, y, z):
     my_variable_1 = context.variables[var_1]
     my_variable_2 = context.variables[var_2]
-    expected = create_tuple(tuple_type, x, y, z)
+    expected = create_structure(tuple_type, x, y, z)
     assert expected.approximately_equals(my_variable_1 + my_variable_2)
 
 
@@ -106,7 +113,7 @@ def check_sum(context, var_1, var_2, tuple_type, x, y, z):
 def check_multiplication(context, var_1, var_2, tuple_type, x, y, z):
     variable_1 = float(var_1) if is_number(var_1) else context.variables[var_1]
     variable_2 = float(var_2) if is_number(var_2) else context.variables[var_2]
-    expected = create_tuple(tuple_type, x, y, z)
+    expected = create_structure(tuple_type, x, y, z)
     assert expected.approximately_equals(variable_1 * variable_2)
 
 
@@ -168,7 +175,7 @@ def check_tuple(context, var_expression, x, y, z, w):
 @then("{var:w} = {tuple_type}({x:g}, {y:g}, {z:g})")
 def check_tuple_type(context, var, tuple_type, x, y, z):
     variable = float(var) if is_number(var) else context.variables[var]
-    expected = create_tuple(tuple_type, x, y, z)
+    expected = create_structure(tuple_type, x, y, z)
     assert expected.approximately_equals(variable), f"{expected} ~= {variable}"
 
 

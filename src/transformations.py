@@ -1,5 +1,6 @@
 import math
 from src.matrix import Matrix, identity
+from src.tuple import Point, Vector, cross, normalize
 
 
 def translation(x: float, y: float, z: float) -> Matrix:
@@ -56,3 +57,20 @@ def shearing(
     result[2, 0] = z_x
     result[2, 1] = z_y
     return result
+
+
+def view_transform(from_position: Point, to: Point, up: Vector) -> Matrix:
+    forward = normalize(to - from_position)
+    right = cross(forward, normalize(up))
+    true_up = cross(right, forward)
+    orientation = Matrix(
+        [
+            [right.x, right.y, right.z, 0],
+            [true_up.x, true_up.y, true_up.z, 0],
+            [-forward.x, -forward.y, -forward.z, 0],
+            [0, 0, 0, 1],
+        ]
+    )
+    return orientation * translation(
+        -from_position.x, -from_position.y, -from_position.z
+    )
