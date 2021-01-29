@@ -1,5 +1,5 @@
 from behave import when, given, then
-from src.intersection import Intersection, intersections, hit
+from src.intersection import Intersection, intersections, hit, PreparedComputation
 from src.helpers import is_number
 
 
@@ -35,3 +35,17 @@ def assign_hit(context, var_1, var_2):
 def check_none(context, var):
     variable = context.variables[var]
     assert variable is None
+
+
+@when(u"{var:w} ← prepare_computations({intersection_var:w}, {ray_var:w})")
+def assign_computations(context, var, intersection_var, ray_var):
+    intersection = context.variables[intersection_var]
+    ray = context.variables[ray_var]
+    context.variables[var] = PreparedComputation(intersection, ray)
+
+
+@then(u"{var_1:S}.{attr_1:S} = {var_2:D}.{attr_2:D}")
+def check_attribute_attribute(context, var_1, attr_1, var_2, attr_2):
+    variable_1 = context.variables[var_1]
+    variable_2 = context.variables[var_2]
+    assert getattr(variable_1, attr_1) == getattr(variable_2, attr_2)

@@ -1,7 +1,10 @@
 from __future__ import annotations
+from dataclasses import dataclass
 from typing import List, Iterable, Optional
 from src.matrix import Matrix
+from src.rays import Ray, position
 from src.materials import Material
+from src.tuple import Point, Vector, dot
 
 
 class Object:
@@ -36,3 +39,28 @@ def hit(xs: Intersections) -> Optional[Intersection]:
             return intersection
 
     return None
+
+
+@dataclass
+class PreparedComputation:
+    t: float
+    the_object: Object
+    point: Point
+    eye_vector: Vector
+    normal_vector: Vector
+    inside: bool
+
+    def __init__(self, intersection: Intersection, ray: Ray):
+        from src.spheres import normal_at
+
+        self.t = intersection.t
+        self.the_object = intersection.the_object
+        self.point = position(ray, self.t)
+        self.eye_vector = -ray.direction
+        self.normal_vector = normal_at(self.the_object, self.point)
+
+        if dot(self.normal_vector, self.eye_vector) < 0:
+            self.inside = True
+            self.normal_vector = -self.normal_vector
+        else:
+            self.inside = False

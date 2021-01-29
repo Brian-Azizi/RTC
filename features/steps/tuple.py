@@ -179,6 +179,10 @@ def check_attribute(context, var, att, expected):
         exp = identity(4)  # type: Union[Matrix, float]
     elif is_number(expected):
         exp = float(expected)
+    elif expected == "true":
+        exp = True
+    elif expected == "false":
+        exp = False
     else:
         exp = context.variables[expected]
 
