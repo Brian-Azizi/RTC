@@ -27,23 +27,27 @@ class Sphere(Object):
         self.transform = transform
 
 
-def intersect(s: Sphere, ray: Ray) -> Intersections:
-    world_to_object_transform = inverse(s.transform)
-    transformed_ray = transform(ray, world_to_object_transform)
+def intersect(s: Object, ray: Ray) -> Intersections:
+    if isinstance(s, Sphere):
+        world_to_object_transform = inverse(s.transform)
+        transformed_ray = transform(ray, world_to_object_transform)
 
-    sphere_to_ray = transformed_ray.origin - s.origin
+        sphere_to_ray = transformed_ray.origin - s.origin
 
-    a = dot(transformed_ray.direction, transformed_ray.direction)
-    b = 2 * dot(transformed_ray.direction, sphere_to_ray)
-    c = dot(sphere_to_ray, sphere_to_ray) - 1
+        a = dot(transformed_ray.direction, transformed_ray.direction)
+        b = 2 * dot(transformed_ray.direction, sphere_to_ray)
+        c = dot(sphere_to_ray, sphere_to_ray) - 1
 
-    discriminant = b * b - 4 * a * c
+        discriminant = b * b - 4 * a * c
 
-    if discriminant < 0:
-        return []
-    return intersections(
-        Intersection((-b - math.sqrt(discriminant)) / (2 * a), s),
-        Intersection((-b + math.sqrt(discriminant)) / (2 * a), s),
+        if discriminant < 0:
+            return []
+        return intersections(
+            Intersection((-b - math.sqrt(discriminant)) / (2 * a), s),
+            Intersection((-b + math.sqrt(discriminant)) / (2 * a), s),
+        )
+    raise ValueError(
+        f"Intersect calculation not supported for objects of type {type(s)}"
     )
 
 

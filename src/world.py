@@ -1,7 +1,8 @@
 from typing import List, Optional
-from src.intersection import Object
+from src.intersection import Object, Intersections, intersections
+from src.rays import Ray
 from src.lights import PointLight
-from src.spheres import Sphere
+from src.spheres import Sphere, intersect
 from src.transformations import scaling
 from src.tuple import point
 from src.color import Color
@@ -33,3 +34,11 @@ def default_world() -> World:
     world.objects.append(sphere_2)
 
     return world
+
+
+def intersect_world(world: World, ray: Ray) -> Intersections:
+    xs = []
+    for s in world.objects:
+        xs.extend(intersect(s, ray))
+
+    return intersections(*xs)
