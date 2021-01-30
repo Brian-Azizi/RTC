@@ -2,6 +2,8 @@ import math
 from src.matrix import Matrix, identity, inverse
 from src.tuple import point, normalize
 from src.rays import Ray
+from src.world import World, color_at
+from src.canvas import Canvas
 
 
 class Camera:
@@ -10,16 +12,16 @@ class Camera:
     Looking at a canvas in the -z direction, 1 pixel away from itself
     """
 
-    hsize: float
-    vsize: float
+    hsize: int
+    vsize: int
     field_of_view: float
     transform: Matrix
     pixel_size: float
 
     def __init__(
         self,
-        hsize: float,
-        vsize: float,
+        hsize: int,
+        vsize: int,
         field_of_view: float,
         transform: Matrix = identity(4),
     ) -> None:
@@ -62,3 +64,14 @@ class Camera:
         direction = normalize(pixel - origin)
 
         return Ray(origin, direction)
+
+    def render(self, world: World) -> Canvas:
+        image = Canvas(self.hsize, self.vsize)
+
+        for x in range(image.width):
+            for y in range(image.height):
+                ray = self.ray_for_pixel(x, y)
+                color = color_at(world, ray)
+                image.write_pixel(x, y, color)
+
+        return image

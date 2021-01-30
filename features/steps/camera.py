@@ -15,7 +15,7 @@ def assign_camera_1(context, var, hsize_var, vsize_var, field_of_view):
     context.variables[var] = Camera(hsize, vsize, fov)
 
 
-@given(u"{var:w} ← camera({hsize:g}, {vsize:g}, {field_of_view:g})")
+@given(u"{var:w} ← camera({hsize:d}, {vsize:d}, {field_of_view:g})")
 def assign_camera_2(context, var, hsize, vsize, field_of_view):
     context.variables[var] = Camera(hsize, vsize, field_of_view)
 
@@ -24,3 +24,10 @@ def assign_camera_2(context, var, hsize, vsize, field_of_view):
 def assign_ray_for_pixel(context, var, cam_var, x, y):
     camera = context.variables[cam_var]
     context.variables[var] = camera.ray_for_pixel(x, y)
+
+
+@when(u"{var:w} ← render({cam_var:w}, {world_var:w})")
+def assign_image(context, var, cam_var, world_var):
+    camera = context.variables[cam_var]
+    world = context.variables[world_var]
+    context.variables[var] = camera.render(world)

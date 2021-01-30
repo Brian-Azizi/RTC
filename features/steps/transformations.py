@@ -50,6 +50,7 @@ def chain_multiplication(context, var, var_c, var_b, var_a):
 
 
 @when(u"{var:w} ← view_transform({from_var:w}, {to_var:w}, {up_var:w})")
+@given(u"{var:w} ← view_transform({from_var:w}, {to_var:w}, {up_var:w})")
 def assign_view_transform(context, var, from_var, to_var, up_var):
     from_position = context.variables[from_var]
     to = context.variables[to_var]

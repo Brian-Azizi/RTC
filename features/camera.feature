@@ -41,3 +41,15 @@ Feature: Camera
     Then r.origin = point(0, 2, -5)
     # √2/2
     And r.direction = vector(0.7071067811865476, 0, -0.7071067811865476)
+
+  Scenario: Rendering a world with a camera
+    Given w ← default_world()
+    And c ← camera(11, 11, 1.5707963267948966)
+    And from ← point(0, 0, -5)
+    And to ← point(0, 0, 0)
+    And up ← vector(0, 1, 0)
+    And transform ← view_transform(from, to, up)
+    And c.transform ← transform
+    And result ← color(0.38066119308103435, 0.47582649135129296, 0.28549589481077575)
+    When image ← render(c, w)
+    Then pixel_at(image, 5, 5) = result

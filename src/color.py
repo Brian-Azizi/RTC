@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Union, Literal
-from src.helpers import approximately_equals
+from src.helpers import approximately_equals, equals
 
 
 @dataclass(frozen=True)
@@ -9,6 +9,16 @@ class Color:
     red: float
     green: float
     blue: float
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Color):
+            return False
+        else:
+            return (
+                equals(self.red, other.red)
+                and equals(self.green, other.green)
+                and equals(self.blue, other.blue)
+            )
 
     def __add__(self, other: Color) -> Color:
         return Color(
@@ -21,6 +31,7 @@ class Color:
         if other == 0:
             return self
         else:
+            assert isinstance(other, Color)
             return self.__add__(other)
 
     def __neg__(self) -> Color:
