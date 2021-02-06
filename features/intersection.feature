@@ -6,7 +6,6 @@ Feature: Intersections
     Then i.t = 3.5
     And i.the_object = s
 
-
   Scenario: Aggregating intersections
     Given s ← sphere()
     And i1 ← intersection(1, s)
@@ -15,7 +14,6 @@ Feature: Intersections
     Then xs.count = 2
     And xs[0].t = 1
     And xs[1].t = 2
-
 
   Scenario: The hit, when all intersections have positive t
     Given s ← sphere()
@@ -51,7 +49,6 @@ Feature: Intersections
     When i ← hit(xs)
     Then i = i4
 
-
   Scenario: Precomputing the state of an intersection
     Given r ← ray(point(0, 0, -5), vector(0, 0, 1))
     And shape ← sphere()
@@ -80,3 +77,12 @@ Feature: Intersections
     And comps.inside = true
     # normal would have been (0, 0, 1), but is inverted!
     And comps.normal_vector = vector(0, 0, -1)
+
+  Scenario: The hit should offset the point
+    Given r ← ray(point(0, 0, -5), vector(0, 0, 1))
+    And shape ← sphere()
+    And set_transform(shape, translation(0, 0, 1))
+    And i ← intersection(5, shape)
+    When comps ← prepare_computations(i, r)
+    Then comps.over_point.z < -EPSILON/2
+    And comps.point.z > comps.over_point.z

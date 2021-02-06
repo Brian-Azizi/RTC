@@ -96,3 +96,10 @@ def assign_shadowed(context, res, world, point):
     w = context.variables[world]
     p = context.variables[point]
     context.variables[res] = is_shadowed(w, p)
+
+
+@given(u"{obj_var:w} is added to {world_var:w}")
+def add_obj_to_world(context, obj_var, world_var):
+    world = context.variables[world_var]
+    obj = context.variables[obj_var]
+    world.objects.append(obj)

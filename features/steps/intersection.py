@@ -1,6 +1,6 @@
 from behave import when, given, then
 from src.intersection import Intersection, intersections, find_hit, PreparedComputation
-from src.helpers import is_number
+from src.helpers import is_number, LONG_EPSILON
 
 
 @given(u"{var:w} ← intersection({t:g}, {obj:w})")
@@ -49,3 +49,18 @@ def check_attribute_attribute(context, var_1, attr_1, var_2, attr_2):
     variable_1 = context.variables[var_1]
     variable_2 = context.variables[var_2]
     assert getattr(variable_1, attr_1) == getattr(variable_2, attr_2)
+
+
+@then(u"{var:w}.{outer:w}.{inner:w} < -EPSILON/2")
+def check_epsilon(context, var, outer, inner):
+    variable = context.variables[var]
+    assert getattr(getattr(variable, outer), inner) < -LONG_EPSILON / 2
+
+
+@then(u"{var_1:w}.{outer_1:w}.{inner_1:w} > {var_2:w}.{outer_2:w}.{inner_2:w}")
+def check_nested(context, var_1, outer_1, inner_1, var_2, outer_2, inner_2):
+    variable_1 = context.variables[var_1]
+    variable_2 = context.variables[var_2]
+    assert getattr(getattr(variable_1, outer_1), inner_1) > getattr(
+        getattr(variable_2, outer_2), inner_2
+    )

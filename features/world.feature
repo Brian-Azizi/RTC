@@ -97,3 +97,18 @@ Feature: World
     And p ← point(-2, 2, -2)
     And s ← is_shadowed(w, p)
     Then s is false
+
+  Scenario: shade_hit() is given an intersection in shadow
+    Given w ← world()
+    And p ← point_light(point(0, 0, -10), color(1, 1, 1))
+    And w.light ← p
+    And s1 ← sphere()
+    And s1 is added to w
+    And s2 ← sphere()
+    And set_transform(s2, translation(0, 0, 10))
+    And s2 is added to w
+    And r ← ray(point(0, 0, 5), vector(0, 0, 1))
+    And i ← intersection(4, s2)
+    When comps ← prepare_computations(i, r)
+    And c ← shade_hit(w, comps)
+    Then c = color(0.1, 0.1, 0.1)

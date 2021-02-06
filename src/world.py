@@ -54,12 +54,14 @@ def shade_hit(world: World, comps: PreparedComputation) -> Color:
     if world.light is None:
         raise ValueError("No light source present")
     else:
+        shadowed = is_shadowed(world, comps.over_point)
         return lighting(
             comps.the_object.material,
             world.light,
             comps.point,
             comps.eye_vector,
             comps.normal_vector,
+            shadowed,
         )
 
 

@@ -5,6 +5,7 @@ from src.matrix import Matrix
 from src.rays import Ray, position
 from src.materials import Material
 from src.tuple import Point, Vector, dot
+from src.helpers import LONG_EPSILON
 
 
 class Object:
@@ -49,6 +50,7 @@ class PreparedComputation:
     eye_vector: Vector
     normal_vector: Vector
     inside: bool
+    over_point: Point
 
     def __init__(self, intersection: Intersection, ray: Ray):
         from src.spheres import normal_at
@@ -64,3 +66,5 @@ class PreparedComputation:
             self.normal_vector = -self.normal_vector
         else:
             self.inside = False
+
+        self.over_point = self.point + self.normal_vector * LONG_EPSILON
