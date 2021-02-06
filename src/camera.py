@@ -70,6 +70,7 @@ class Camera:
 
         for x in range(image.width):
             for y in range(image.height):
+                print(f"Rendering pixel {(x,y)} of {(image.width, image.height)}")
                 ray = self.ray_for_pixel(x, y)
                 color = color_at(world, ray)
                 image.write_pixel(x, y, color)
