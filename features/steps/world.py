@@ -1,5 +1,12 @@
 from behave import given, then, when
-from src.world import World, default_world, intersect_world, shade_hit, color_at
+from src.world import (
+    World,
+    default_world,
+    intersect_world,
+    shade_hit,
+    color_at,
+    is_shadowed,
+)
 
 
 @given(u"{var:w} ← world()")
@@ -70,3 +77,22 @@ def check_inner_attribute(context, exp, var, outer, inner):
     variable = context.variables[var]
     expected = context.variables[exp]
     assert expected == getattr(getattr(variable, outer), inner)
+
+
+@then(u"{anything} is false")
+def check_false(context, anything):
+    variable = context.variables[anything]
+    assert variable is False
+
+
+@then(u"{anything} is true")
+def check_true(context, anything):
+    variable = context.variables[anything]
+    assert variable is True
+
+
+@given(u"{res:w} ← is_shadowed({world:w}, {point:w})")
+def assign_shadowed(context, res, world, point):
+    w = context.variables[world]
+    p = context.variables[point]
+    context.variables[res] = is_shadowed(w, p)

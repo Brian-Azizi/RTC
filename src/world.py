@@ -10,7 +10,7 @@ from src.rays import Ray
 from src.lights import PointLight
 from src.spheres import Sphere, intersect
 from src.transformations import scaling
-from src.tuple import point
+from src.tuple import point, Point, magnitude, normalize
 from src.color import Color
 from src.materials import Material, lighting
 
@@ -71,3 +71,19 @@ def color_at(world: World, ray: Ray) -> Color:
 
     comps = PreparedComputation(hit, ray)
     return shade_hit(world, comps)
+
+
+def is_shadowed(world: World, point: Point) -> bool:
+    if world.light is None:
+        return False
+    else:
+        light_direction = world.light.position - point
+        distance = magnitude(light_direction)
+        ray = Ray(point, normalize(light_direction))
+        intersections = intersect_world(world, ray)
+        hit = find_hit(intersections)
+
+        if hit is None or hit.t > distance:
+            return False
+
+        return True
