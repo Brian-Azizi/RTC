@@ -20,16 +20,19 @@ def lighting(
     point: Point,
     eye: Vector,
     normal: Vector,
+    in_shadow: bool = False,
 ) -> Color:
     """
     Compute color at a point on the surface using the Phong Reflection Model
     Composition made up of ambient light, diffused light and specular light
     """
-    black = Color(0, 0, 0)
-
     effective_color = m.color * light.intensity
     ambient = effective_color * m.ambient
 
+    if in_shadow:
+        return ambient
+
+    black = Color(0, 0, 0)
     light_direction = normalize(light.position - point)
     light_direction_cosine = dot(light_direction, normal)
     if light_direction_cosine < 0:
