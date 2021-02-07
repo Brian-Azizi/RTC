@@ -1,6 +1,8 @@
 import math
 from typing import List
 from src.spheres import Sphere
+from src.planes import Plane
+from src.shape import Shape
 from src.transformations import (
     scaling,
     translation,
@@ -31,31 +33,16 @@ def run() -> None:
     PPM(canvas).save_to_file("scene.ppm")
 
 
-def create_room() -> List[Sphere]:
-    floor = Sphere()
-    floor.transform = scaling(10, 0.01, 10)
+def create_room() -> List[Shape]:
+    floor = Plane()
     floor.material.color = Color(1, 0.9, 0.9)
     floor.material.specular = 0
 
-    left_wall = Sphere()
-    left_wall.transform = (
-        translation(0, 0, 5)
-        * rotation_y(-math.pi / 4)
-        * rotation_x(math.pi / 2)
-        * scaling(10, 0.01, 10)
-    )
-    left_wall.material = floor.material
+    # left_wall = Plane()
+    # left_wall.transform = rotation_y(-math.pi / 4) * rotation_x(math.pi / 2)
+    # left_wall.material = floor.material
 
-    right_wall = Sphere()
-    right_wall.transform = (
-        translation(0, 0, 5)
-        * rotation_y(math.pi / 4)
-        * rotation_x(math.pi / 2)
-        * scaling(10, 0.01, 10)
-    )
-    right_wall.material = floor.material
-
-    return [floor, left_wall, right_wall]
+    return [floor]
 
 
 def create_objects() -> List[Sphere]:
