@@ -48,13 +48,11 @@ class PreparedComputation:
     over_point: Point
 
     def __init__(self, intersection: Intersection, ray: Ray):
-        from src.spheres import normal_at
-
         self.t = intersection.t
         self.shape = intersection.shape
         self.point = position(ray, self.t)
         self.eye_vector = -ray.direction
-        self.normal_vector = normal_at(self.shape, self.point)
+        self.normal_vector = self.shape.normal_at(self.point)
 
         if dot(self.normal_vector, self.eye_vector) < 0:
             self.inside = True

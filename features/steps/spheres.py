@@ -1,6 +1,6 @@
 from behave import given, then, when
 from typing import Callable, List
-from src.spheres import Sphere, intersect, normal_at
+from src.spheres import Sphere
 from src.transformations import scaling, translation, rotation_z
 from src.tuple import normalize, point
 from src.matrix import Matrix
@@ -16,7 +16,7 @@ def assign_sphere(context, var):
 def assign_intersect(context, var, sphere_var, ray_var):
     s = context.variables[sphere_var]
     r = context.variables[ray_var]
-    context.variables[var] = intersect(s, r)
+    context.variables[var] = s.intersect(r)
 
 
 @then("{var:w}[{index:d}] = {value:g}")
@@ -66,7 +66,7 @@ def assign_transformation(context, var, transform_1, args_1, transform_2, args_2
 @when("{var:w} ← normal_at({obj_var:w}, point({x:g}, {y:g}, {z:g}))")
 def assign_normal(context, var, obj_var, x, y, z):
     shape = context.variables[obj_var]
-    context.variables[var] = normal_at(shape, point(x, y, z))
+    context.variables[var] = shape.normal_at(point(x, y, z))
 
 
 @then("{var_1:w} = normalize({var_2:w})")

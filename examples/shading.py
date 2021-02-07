@@ -3,7 +3,7 @@ from src.canvas import Canvas
 from src.rays import Ray, position
 from src.color import Color
 from src.intersection import find_hit
-from src.spheres import Sphere, normal_at, intersect
+from src.spheres import Sphere
 from src.tuple import point, Point, normalize
 from src.ppm import PPM
 from src.transformations import translation, shearing, scaling, rotation_z
@@ -46,10 +46,10 @@ def run() -> None:
         for j in range(CANVAS_SIZE):
             target = canvas_to_world(point(i, j, 0))
             ray = Ray(origin, normalize(target - origin))
-            hit = find_hit(intersect(shape, ray))
+            hit = find_hit(shape.intersect(ray))
             if hit is not None:
                 hit_point = position(ray, hit.t)
-                normal = normal_at(hit.shape, hit_point)
+                normal = hit.shape.normal_at(hit_point)
                 pixel_color = lighting(
                     hit.shape.material, light, hit_point, -ray.direction, normal
                 )
