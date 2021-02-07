@@ -1,4 +1,3 @@
-import math
 from src.color import Color
 from src.tuple import Point, Vector, normalize, dot, reflect
 from src.lights import PointLight

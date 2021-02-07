@@ -1,13 +1,11 @@
-import math
 from src.canvas import Canvas
 from src.rays import Ray, position
 from src.color import Color
-from src.intersection import find_hit
-from src.spheres import Sphere, normal_at, intersect
+from src.spheres import Sphere
+from src.shape import find_hit
 from src.tuple import point, Point, normalize
 from src.ppm import PPM
-from src.transformations import translation, shearing, scaling, rotation_z
-from src.materials import Material, lighting
+from src.materials import lighting
 from src.lights import PointLight
 
 
@@ -33,11 +31,10 @@ def canvas_to_world(canvas_coordinate: Point) -> Point:
 def run() -> None:
     # Eye is at (0,0, 5)
     origin = point(0, 0, 5)
-    shadow = Color(1, 0, 0)
 
-    the_object = Sphere()
-    # the_object.set_transform(scaling(0.5, 1, 1))
-    the_object.material.color = Color(0.9, 0.2, 1)
+    shape = Sphere()
+    # shape.set_transform(scaling(0.5, 1, 1))
+    shape.material.color = Color(0.9, 0.2, 1)
 
     light = PointLight(point(-10, 10, 10), Color(1, 1, 1))
     canvas = Canvas(CANVAS_SIZE, CANVAS_SIZE)
@@ -46,12 +43,12 @@ def run() -> None:
         for j in range(CANVAS_SIZE):
             target = canvas_to_world(point(i, j, 0))
             ray = Ray(origin, normalize(target - origin))
-            hit = find_hit(intersect(the_object, ray))
+            hit = find_hit(shape.intersect(ray))
             if hit is not None:
                 hit_point = position(ray, hit.t)
-                normal = normal_at(hit.the_object, hit_point)
+                normal = hit.shape.normal_at(hit_point)
                 pixel_color = lighting(
-                    hit.the_object.material, light, hit_point, -ray.direction, normal
+                    hit.shape.material, light, hit_point, -ray.direction, normal
                 )
                 canvas.write_pixel(i, j, pixel_color)
 

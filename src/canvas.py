@@ -1,6 +1,5 @@
 from typing import Callable, Optional
 from src.color import Color
-from src.helpers import clamp
 
 
 class Canvas:

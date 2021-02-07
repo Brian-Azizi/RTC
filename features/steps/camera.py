@@ -1,4 +1,4 @@
-from behave import given, then, when
+from behave import given, when
 from src.camera import Camera
 
 

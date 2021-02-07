@@ -1,22 +1,55 @@
+from __future__ import annotations
 from typing import List, Optional
-from src.intersection import (
-    Object,
+from src.shape import (
+    Shape,
+    Intersection,
     Intersections,
     intersections,
-    PreparedComputation,
     find_hit,
 )
 from src.rays import Ray
 from src.lights import PointLight
-from src.spheres import Sphere, intersect
+from src.spheres import Sphere
 from src.transformations import scaling
 from src.tuple import point, Point, magnitude, normalize
 from src.color import Color
 from src.materials import Material, lighting
+from src.shape import Shape
+from dataclasses import dataclass
+from typing import List, Optional
+from src.rays import Ray, position
+from src.tuple import Point, Vector, dot
+from src.helpers import LONG_EPSILON
+
+
+@dataclass
+class PreparedComputation:
+    t: float
+    shape: Shape
+    point: Point
+    eye_vector: Vector
+    normal_vector: Vector
+    inside: bool
+    over_point: Point
+
+    def __init__(self, intersection: Intersection, ray: Ray):
+        self.t = intersection.t
+        self.shape = intersection.shape
+        self.point = position(ray, self.t)
+        self.eye_vector = -ray.direction
+        self.normal_vector = self.shape.normal_at(self.point)
+
+        if dot(self.normal_vector, self.eye_vector) < 0:
+            self.inside = True
+            self.normal_vector = -self.normal_vector
+        else:
+            self.inside = False
+
+        self.over_point = self.point + self.normal_vector * LONG_EPSILON
 
 
 class World:
-    objects: List[Object]
+    objects: List[Shape]
     light: Optional[PointLight]
 
     def __init__(self) -> None:
@@ -45,7 +78,7 @@ def default_world() -> World:
 def intersect_world(world: World, ray: Ray) -> Intersections:
     xs = []
     for s in world.objects:
-        xs.extend(intersect(s, ray))
+        xs.extend(s.intersect(ray))
 
     return intersections(*xs)
 
@@ -56,7 +89,7 @@ def shade_hit(world: World, comps: PreparedComputation) -> Color:
     else:
         shadowed = is_shadowed(world, comps.over_point)
         return lighting(
-            comps.the_object.material,
+            comps.shape.material,
             world.light,
             comps.point,
             comps.eye_vector,
