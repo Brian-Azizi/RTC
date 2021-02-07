@@ -18,6 +18,9 @@ class Shape(ABC):
         self.transform = identity(4)
         self.material = Material()
 
+    def set_transform(self, transform: Matrix) -> None:
+        self.transform = transform
+
     @abstractmethod
     def intersect(self, ray: Ray) -> Intersections:
         pass

@@ -2,6 +2,7 @@ from behave import when, then, given
 from src.rays import Ray, position, transform
 from src.color import Color
 from src.tuple import vector, point
+from src.transformations import translation
 
 
 @when("{var:w} ← ray({orig:w}, {dir:w})")
@@ -40,8 +41,10 @@ def check_attribute_point(context, var, att, tuple_type, x, y, z):
         expected = vector(x, y, z)
     elif tuple_type == "color":
         expected = Color(x, y, z)  # type: ignore
+    elif tuple_type == "translation":
+        expected = translation(x, y, z)  # type: ignore
     else:
-        raise ValueError(f"tuple type '{tuple_type}' not recognized")
+        raise ValueError(f"type '{tuple_type}' not recognized")
 
     my_variable = context.variables[var]
     assert (

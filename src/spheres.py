@@ -21,9 +21,6 @@ class Sphere(Shape):
         self.radius = 1.0
         return super().__init__()
 
-    def set_transform(self, transform: Matrix) -> None:
-        self.transform = transform
-
     def intersect(self, ray: Ray) -> Intersections:
         world_to_object_transform = inverse(self.transform)
         transformed_ray = transform(ray, world_to_object_transform)
