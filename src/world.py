@@ -1,8 +1,10 @@
+from __future__ import annotations
 from typing import List, Optional
-from src.intersection import (
+from src.shape import (
+    Shape,
+    Intersection,
     Intersections,
     intersections,
-    PreparedComputation,
     find_hit,
 )
 from src.rays import Ray
@@ -13,6 +15,37 @@ from src.tuple import point, Point, magnitude, normalize
 from src.color import Color
 from src.materials import Material, lighting
 from src.shape import Shape
+from dataclasses import dataclass
+from typing import List, Optional
+from src.rays import Ray, position
+from src.tuple import Point, Vector, dot
+from src.helpers import LONG_EPSILON
+
+
+@dataclass
+class PreparedComputation:
+    t: float
+    shape: Shape
+    point: Point
+    eye_vector: Vector
+    normal_vector: Vector
+    inside: bool
+    over_point: Point
+
+    def __init__(self, intersection: Intersection, ray: Ray):
+        self.t = intersection.t
+        self.shape = intersection.shape
+        self.point = position(ray, self.t)
+        self.eye_vector = -ray.direction
+        self.normal_vector = self.shape.normal_at(self.point)
+
+        if dot(self.normal_vector, self.eye_vector) < 0:
+            self.inside = True
+            self.normal_vector = -self.normal_vector
+        else:
+            self.inside = False
+
+        self.over_point = self.point + self.normal_vector * LONG_EPSILON
 
 
 class World:

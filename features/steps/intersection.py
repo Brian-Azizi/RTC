@@ -1,5 +1,6 @@
 from behave import when, given, then
-from src.intersection import Intersection, intersections, find_hit, PreparedComputation
+from src.shape import Intersection, intersections, find_hit
+from src.world import PreparedComputation
 from src.helpers import is_number, LONG_EPSILON
 
 

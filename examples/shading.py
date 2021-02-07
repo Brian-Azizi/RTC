@@ -1,8 +1,8 @@
 from src.canvas import Canvas
 from src.rays import Ray, position
 from src.color import Color
-from src.intersection import find_hit
 from src.spheres import Sphere
+from src.shape import find_hit
 from src.tuple import point, Point, normalize
 from src.ppm import PPM
 from src.materials import lighting
