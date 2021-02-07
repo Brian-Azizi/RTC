@@ -17,7 +17,7 @@ from src.materials import Material, lighting
 from src.shape import Shape
 from dataclasses import dataclass
 from typing import List, Optional
-from src.rays import Ray, position
+from src.rays import Ray
 from src.tuple import Point, Vector, dot
 from src.helpers import LONG_EPSILON
 
@@ -35,7 +35,7 @@ class PreparedComputation:
     def __init__(self, intersection: Intersection, ray: Ray):
         self.t = intersection.t
         self.shape = intersection.shape
-        self.point = position(ray, self.t)
+        self.point = ray.position(self.t)
         self.eye_vector = -ray.direction
         self.normal_vector = self.shape.normal_at(self.point)
 

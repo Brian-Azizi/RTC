@@ -1,7 +1,7 @@
 import math
 from dataclasses import dataclass
 from src.tuple import point, Point, dot, normalize, Vector, vector
-from src.rays import Ray, transform
+from src.rays import Ray
 from src.matrix import Matrix, inverse, transpose
 from src.materials import Material
 from src.shape import Shape, Intersection, intersections, Intersections

@@ -9,13 +9,11 @@ class Ray:
     origin: Point
     direction: Vector
 
+    def position(self, t: float) -> Point:
+        return self.origin + t * self.direction
 
-def position(ray: Ray, t: float) -> Point:
-    return ray.origin + t * ray.direction
-
-
-def transform(ray: Ray, matrix: Matrix) -> Ray:
-    return Ray(
-        matrix * ray.origin,
-        matrix * ray.direction,
-    )
+    def transform(self, matrix: Matrix) -> Ray:
+        return Ray(
+            matrix * self.origin,
+            matrix * self.direction,
+        )

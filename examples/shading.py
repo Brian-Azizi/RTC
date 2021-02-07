@@ -1,5 +1,5 @@
 from src.canvas import Canvas
-from src.rays import Ray, position
+from src.rays import Ray
 from src.color import Color
 from src.spheres import Sphere
 from src.shape import find_hit
@@ -45,7 +45,7 @@ def run() -> None:
             ray = Ray(origin, normalize(target - origin))
             hit = find_hit(shape.intersect(ray))
             if hit is not None:
-                hit_point = position(ray, hit.t)
+                hit_point = ray.position(hit.t)
                 normal = hit.shape.normal_at(hit_point)
                 pixel_color = lighting(
                     hit.shape.material, light, hit_point, -ray.direction, normal

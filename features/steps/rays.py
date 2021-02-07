@@ -1,5 +1,5 @@
 from behave import when, then, given
-from src.rays import Ray, position, transform
+from src.rays import Ray
 from src.color import Color
 from src.tuple import vector, point
 from src.transformations import translation
@@ -23,14 +23,14 @@ def assign_ray_inline(context, var, px, py, pz, vx, vy, vz):
 def check_position(context, var, t, x, y, z):
     ray = context.variables[var]
     expected = point(x, y, z)
-    assert position(ray, t) == expected
+    assert ray.position(t) == expected
 
 
 @when("{new_ray:w} ← transform({ray:w}, {matrix:w})")
 def assign_transform(context, new_ray, ray, matrix):
     r = context.variables[ray]
     m = context.variables[matrix]
-    context.variables[new_ray] = transform(r, m)
+    context.variables[new_ray] = r.transform(m)
 
 
 @then("{var:w}.{att:w} = {tuple_type:w}({x:g}, {y:g}, {z:g})")
