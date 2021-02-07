@@ -7,6 +7,8 @@ lint:
 format:
 	black .
 
-ex-projectile:
-	python -m examples.projectile
-	open projectile.ppm
+check-imports:
+	autoflake -c --remove-unused-variables --remove-all-unused-imports --exclude book_files,virtualenv -r .
+
+fix-imports:
+	autoflake -i --remove-unused-variables --remove-all-unused-imports --exclude book_files,virtualenv -r .

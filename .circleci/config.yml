@@ -9,14 +9,14 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          name: Where are we
-          command: pwd
-      - run:
           name: Lint
           command: mypy
       - run:
           name: Format
           command: black --check .
+      - run:
+          name: Check imports
+          command: make check-imports
       - run:
           name: Test
           command: behave
