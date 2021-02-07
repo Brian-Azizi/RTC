@@ -21,14 +21,11 @@ class Sphere(Shape):
         self.radius = 1.0
         return super().__init__()
 
-    def intersect(self, ray: Ray) -> Intersections:
-        world_to_object_transform = inverse(self.transform)
-        transformed_ray = transform(ray, world_to_object_transform)
+    def local_intersect(self, ray: Ray) -> Intersections:
+        sphere_to_ray = ray.origin - self.origin
 
-        sphere_to_ray = transformed_ray.origin - self.origin
-
-        a = dot(transformed_ray.direction, transformed_ray.direction)
-        b = 2 * dot(transformed_ray.direction, sphere_to_ray)
+        a = dot(ray.direction, ray.direction)
+        b = 2 * dot(ray.direction, sphere_to_ray)
         c = dot(sphere_to_ray, sphere_to_ray) - 1
 
         discriminant = b * b - 4 * a * c

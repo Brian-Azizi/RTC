@@ -6,8 +6,9 @@ from src.rays import Ray
 from src.tuple import Point, Vector
 from typing import List, Optional
 from typing import List, Optional
-from src.rays import Ray
+from src.rays import Ray, transform
 from src.tuple import Point, Vector
+from src.matrix import inverse
 
 
 class Shape(ABC):
@@ -21,8 +22,13 @@ class Shape(ABC):
     def set_transform(self, transform: Matrix) -> None:
         self.transform = transform
 
-    @abstractmethod
     def intersect(self, ray: Ray) -> Intersections:
+        world_to_object_transform = inverse(self.transform)
+        local_ray = transform(ray, world_to_object_transform)
+        return self.local_intersect(local_ray)
+
+    @abstractmethod
+    def local_intersect(self, ray: Ray) -> Intersections:
         pass
 
     @abstractmethod
