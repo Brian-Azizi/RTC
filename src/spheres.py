@@ -2,7 +2,7 @@ import math
 from dataclasses import dataclass
 from src.tuple import point, Point, dot, normalize, Vector, vector
 from src.rays import Ray, transform
-from src.matrix import identity, Matrix, inverse, transpose
+from src.matrix import Matrix, inverse, transpose
 from src.materials import Material
 from src.shape import Shape, Intersection, intersections, Intersections
 
@@ -19,8 +19,7 @@ class Sphere(Shape):
     def __init__(self) -> None:
         self.origin = point(0, 0, 0)
         self.radius = 1.0
-        self.transform = identity(4)
-        self.material = Material()
+        return super().__init__()
 
     def set_transform(self, transform: Matrix) -> None:
         self.transform = transform

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from src.materials import Material
-from src.matrix import Matrix
+from src.matrix import Matrix, identity
 from src.rays import Ray
 from src.tuple import Point, Vector
 from typing import List, Optional
@@ -13,6 +13,10 @@ from src.tuple import Point, Vector
 class Shape(ABC):
     transform: Matrix
     material: Material
+
+    def __init__(self) -> None:
+        self.transform = identity(4)
+        self.material = Material()
 
     @abstractmethod
     def intersect(self, ray: Ray) -> Intersections:
