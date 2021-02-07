@@ -1,6 +1,6 @@
 from src.shape import Shape, Intersections
 from src.rays import Ray
-from src.tuple import Point, Vector
+from src.tuple import Point, Vector, vector
 
 
 class TestShape(Shape):
@@ -10,5 +10,5 @@ class TestShape(Shape):
         self.local_ray = ray
         return super().local_intersect(ray)
 
-    def normal_at(self, world_point: Point) -> Vector:
-        return super().normal_at(world_point)
+    def local_normal_at(self, p: Point) -> Vector:
+        return vector(p.x, p.y, p.z)

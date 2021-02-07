@@ -7,8 +7,8 @@ from src.tuple import Point, Vector
 from typing import List, Optional
 from typing import List, Optional
 from src.rays import Ray
-from src.tuple import Point, Vector
-from src.matrix import inverse
+from src.tuple import Point, Vector, vector, normalize
+from src.matrix import inverse, transpose
 
 
 class Shape(ABC):
@@ -27,12 +27,22 @@ class Shape(ABC):
         local_ray = ray.transform(world_to_object_transform)
         return self.local_intersect(local_ray)
 
+    def normal_at(self, world_point: Point) -> Vector:
+        transformer = inverse(self.transform)
+        local_point = transformer * world_point
+        local_normal = self.local_normal_at(local_point)
+        world_normal = transpose(transformer) * local_normal
+        world_normal = vector(
+            world_normal.x, world_normal.y, world_normal.z
+        )  # set w to 0
+        return normalize(world_normal)
+
     @abstractmethod
     def local_intersect(self, ray: Ray) -> Intersections:
         pass
 
     @abstractmethod
-    def normal_at(self, world_point: Point) -> Vector:
+    def local_normal_at(self, point: Point) -> Vector:
         pass
 
 

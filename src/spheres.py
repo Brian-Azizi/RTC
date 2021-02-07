@@ -38,12 +38,5 @@ class Sphere(Shape):
             Intersection((-b + math.sqrt(discriminant)) / (2 * a), self),
         )
 
-    def normal_at(self, world_point: Point) -> Vector:
-        transformer = inverse(self.transform)
-        object_point = transformer * world_point
-        object_normal = object_point - point(0, 0, 0)
-        world_normal = transpose(transformer) * object_normal
-        world_normal = vector(
-            world_normal.x, world_normal.y, world_normal.z
-        )  # set w to 0
-        return normalize(world_normal)
+    def local_normal_at(self, p: Point) -> Vector:
+        return p - point(0, 0, 0)
