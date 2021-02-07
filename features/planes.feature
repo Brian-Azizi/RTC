@@ -20,3 +20,19 @@ Feature: Planes
     And r ← ray(point(0, 0, 0), vector(0, 0, 1))
     When xs ← local_intersect(p, r)
     Then xs is empty
+
+  Scenario: A ray intersecting a plane from above
+    Given p ← plane()
+    And r ← ray(point(0, 1, 0), vector(0, -1, 0))
+    When xs ← local_intersect(p, r)
+    Then xs.count = 1
+    And xs[0].t = 1
+    And xs[0].shape = p
+
+  Scenario: A ray intersecting a plane from below
+    Given p ← plane()
+    And r ← ray(point(0, -1, 0), vector(0, 1, 0))
+    When xs ← local_intersect(p, r)
+    Then xs.count = 1
+    And xs[0].t = 1
+    And xs[0].shape = p
