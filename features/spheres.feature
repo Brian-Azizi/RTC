@@ -43,8 +43,8 @@ Feature: Spheres
     And s ← sphere()
     When xs ← intersect(s, r)
     Then xs.count = 2
-    And xs[0].the_object = s
-    And xs[1].the_object = s
+    And xs[0].shape = s
+    And xs[1].shape = s
 
   Scenario: A sphere's default transformation
     Given s ← sphere()

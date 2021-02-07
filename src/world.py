@@ -1,6 +1,6 @@
 from typing import List, Optional
 from src.intersection import (
-    Object,
+    Shape,
     Intersections,
     intersections,
     PreparedComputation,
@@ -16,7 +16,7 @@ from src.materials import Material, lighting
 
 
 class World:
-    objects: List[Object]
+    objects: List[Shape]
     light: Optional[PointLight]
 
     def __init__(self) -> None:
@@ -56,7 +56,7 @@ def shade_hit(world: World, comps: PreparedComputation) -> Color:
     else:
         shadowed = is_shadowed(world, comps.over_point)
         return lighting(
-            comps.the_object.material,
+            comps.shape.material,
             world.light,
             comps.point,
             comps.eye_vector,

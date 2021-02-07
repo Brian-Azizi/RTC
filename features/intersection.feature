@@ -4,7 +4,7 @@ Feature: Intersections
     Given s ← sphere()
     When i ← intersection(3.5, s)
     Then i.t = 3.5
-    And i.the_object = s
+    And i.shape = s
 
   Scenario: Aggregating intersections
     Given s ← sphere()
@@ -55,7 +55,7 @@ Feature: Intersections
     And i ← intersection(4, shape)
     When comps ← prepare_computations(i, r)
     Then comps.t = i.t
-    And comps.the_object = i.the_object
+    And comps.shape = i.shape
     And comps.point = point(0, 0, -1)
     And comps.eye_vector = vector(0, 0, -1)
     And comps.normal_vector = vector(0, 0, -1)

@@ -35,9 +35,9 @@ def run() -> None:
     origin = point(0, 0, 5)
     shadow = Color(1, 0, 0)
 
-    the_object = Sphere()
-    # the_object.set_transform(scaling(0.5, 1, 1))
-    the_object.material.color = Color(0.9, 0.2, 1)
+    shape = Sphere()
+    # shape.set_transform(scaling(0.5, 1, 1))
+    shape.material.color = Color(0.9, 0.2, 1)
 
     light = PointLight(point(-10, 10, 10), Color(1, 1, 1))
     canvas = Canvas(CANVAS_SIZE, CANVAS_SIZE)
@@ -46,12 +46,12 @@ def run() -> None:
         for j in range(CANVAS_SIZE):
             target = canvas_to_world(point(i, j, 0))
             ray = Ray(origin, normalize(target - origin))
-            hit = find_hit(intersect(the_object, ray))
+            hit = find_hit(intersect(shape, ray))
             if hit is not None:
                 hit_point = position(ray, hit.t)
-                normal = normal_at(hit.the_object, hit_point)
+                normal = normal_at(hit.shape, hit_point)
                 pixel_color = lighting(
-                    hit.the_object.material, light, hit_point, -ray.direction, normal
+                    hit.shape.material, light, hit_point, -ray.direction, normal
                 )
                 canvas.write_pixel(i, j, pixel_color)
 

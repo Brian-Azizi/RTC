@@ -3,13 +3,13 @@ from dataclasses import dataclass
 from typing import List
 from src.tuple import point, Point, dot, normalize, Vector, vector
 from src.rays import Ray, transform
-from src.intersection import Intersection, intersections, Intersections, Object
+from src.intersection import Intersection, intersections, Intersections, Shape
 from src.matrix import identity, Matrix, inverse, transpose
 from src.materials import Material
 
 
 @dataclass
-class Sphere(Object):
+class Sphere(Shape):
     """Unit Sphere"""
 
     origin: Point
@@ -27,7 +27,7 @@ class Sphere(Object):
         self.transform = transform
 
 
-def intersect(s: Object, ray: Ray) -> Intersections:
+def intersect(s: Shape, ray: Ray) -> Intersections:
     if isinstance(s, Sphere):
         world_to_object_transform = inverse(s.transform)
         transformed_ray = transform(ray, world_to_object_transform)
@@ -51,7 +51,7 @@ def intersect(s: Object, ray: Ray) -> Intersections:
     )
 
 
-def normal_at(s: Object, world_point: Point) -> Vector:
+def normal_at(s: Shape, world_point: Point) -> Vector:
     if isinstance(s, Sphere):
         transformer = inverse(s.transform)
         object_point = transformer * world_point

@@ -8,18 +8,18 @@ from src.tuple import Point, Vector, dot
 from src.helpers import LONG_EPSILON
 
 
-class Object:
+class Shape:
     transform: Matrix
     material: Material
 
 
 class Intersection:
     t: float
-    the_object: Object
+    shape: Shape
 
-    def __init__(self, t: float, the_object: Object):
+    def __init__(self, t: float, shape: Shape):
         self.t = t
-        self.the_object = the_object
+        self.shape = shape
 
     def __lt__(self, other: Intersection) -> bool:
         return self.t < other.t
@@ -45,7 +45,7 @@ def find_hit(xs: Intersections) -> Optional[Intersection]:
 @dataclass
 class PreparedComputation:
     t: float
-    the_object: Object
+    shape: Shape
     point: Point
     eye_vector: Vector
     normal_vector: Vector
@@ -56,10 +56,10 @@ class PreparedComputation:
         from src.spheres import normal_at
 
         self.t = intersection.t
-        self.the_object = intersection.the_object
+        self.shape = intersection.shape
         self.point = position(ray, self.t)
         self.eye_vector = -ray.direction
-        self.normal_vector = normal_at(self.the_object, self.point)
+        self.normal_vector = normal_at(self.shape, self.point)
 
         if dot(self.normal_vector, self.eye_vector) < 0:
             self.inside = True
