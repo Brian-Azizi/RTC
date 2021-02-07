@@ -1,0 +1,26 @@
+version: 2.1
+orbs:
+  python: circleci/python@1.3.2
+jobs:
+  build:
+    executor: python/default
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Where are we
+          command: pwd
+      - run:
+          name: Lint
+          command: mypy
+      - run:
+          name: Format
+          command: black --check .
+      - run:
+          name: Test
+          command: behave
+workflows:
+  main:
+    jobs:
+      - build
