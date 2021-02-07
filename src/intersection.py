@@ -3,14 +3,9 @@ from dataclasses import dataclass
 from typing import List, Iterable, Optional
 from src.matrix import Matrix
 from src.rays import Ray, position
-from src.materials import Material
 from src.tuple import Point, Vector, dot
 from src.helpers import LONG_EPSILON
-
-
-class Shape:
-    transform: Matrix
-    material: Material
+from src.shape import Shape
 
 
 class Intersection:

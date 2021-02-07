@@ -1,6 +1,5 @@
 from typing import List, Optional
 from src.intersection import (
-    Shape,
     Intersections,
     intersections,
     PreparedComputation,
@@ -13,6 +12,7 @@ from src.transformations import scaling
 from src.tuple import point, Point, magnitude, normalize
 from src.color import Color
 from src.materials import Material, lighting
+from src.shape import Shape
 
 
 class World:

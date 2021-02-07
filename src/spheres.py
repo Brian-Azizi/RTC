@@ -3,9 +3,10 @@ from dataclasses import dataclass
 from typing import List
 from src.tuple import point, Point, dot, normalize, Vector, vector
 from src.rays import Ray, transform
-from src.intersection import Intersection, intersections, Intersections, Shape
+from src.intersection import Intersection, intersections, Intersections
 from src.matrix import identity, Matrix, inverse, transpose
 from src.materials import Material
+from src.shape import Shape
 
 
 @dataclass
