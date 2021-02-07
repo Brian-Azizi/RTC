@@ -3,7 +3,6 @@ from src.tuple import point, Point
 from src.transformations import rotation_z, scaling, translation
 from src.canvas import Canvas
 from src.color import Color
-from src.matrix import inverse
 from src.ppm import PPM
 
 

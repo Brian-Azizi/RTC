@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Tuple as TupleType, Union, overload
+from typing import List, Tuple as TupleType, overload
 from src.tuple import Tuple
 from src.helpers import approximately_equals, equals
 

@@ -1,4 +1,3 @@
-import math
 from src.canvas import Canvas
 from src.rays import Ray, position
 from src.color import Color
@@ -6,8 +5,7 @@ from src.intersection import find_hit
 from src.spheres import Sphere
 from src.tuple import point, Point, normalize
 from src.ppm import PPM
-from src.transformations import translation, shearing, scaling, rotation_z
-from src.materials import Material, lighting
+from src.materials import lighting
 from src.lights import PointLight
 
 
@@ -33,7 +31,6 @@ def canvas_to_world(canvas_coordinate: Point) -> Point:
 def run() -> None:
     # Eye is at (0,0, 5)
     origin = point(0, 0, 5)
-    shadow = Color(1, 0, 0)
 
     shape = Sphere()
     # shape.set_transform(scaling(0.5, 1, 1))

@@ -1,5 +1,5 @@
 from behave import given, then, when
-from typing import Callable, List
+from typing import Callable
 from src.spheres import Sphere
 from src.transformations import scaling, translation, rotation_z
 from src.tuple import normalize, point

@@ -1,6 +1,5 @@
 import math
 from dataclasses import dataclass
-from typing import List
 from src.tuple import point, Point, dot, normalize, Vector, vector
 from src.rays import Ray, transform
 from src.intersection import Intersection, intersections, Intersections

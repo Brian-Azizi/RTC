@@ -1,5 +1,5 @@
 import math
-from behave import given, then, when
+from behave import given, when
 from src.transformations import (
     translation,
     scaling,

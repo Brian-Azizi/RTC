@@ -1,7 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import List, Iterable, Optional
-from src.matrix import Matrix
+from typing import List, Optional
 from src.rays import Ray, position
 from src.tuple import Point, Vector, dot
 from src.helpers import LONG_EPSILON
